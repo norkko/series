@@ -3,6 +3,7 @@ package net.series.rest.api.controller;
 import net.series.rest.http.Request;
 import net.series.rest.http.Response;
 import net.series.rest.http.Url;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

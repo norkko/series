@@ -1,14 +1,14 @@
 package net.series.rest.http;
 
-import com.mashape.unirest.http.JsonNode;
 import lombok.Data;
 
+/**
+ * GSON Object
+ */
 @Data
 public class Response {
-    private JsonNode body;
-
-    Response(JsonNode body) {
-        this.body = body;
-    }
-
+    public int episode_number;
+    public int season_number;
+    public String overview;
+    public int id;
 }
