@@ -3,7 +3,7 @@ services:
   rest:
     build: ./rest
     ports:
-      - 8081
+      - 8081:8081
     environment:
       API_KEY: ${API_KEY}
       API_URL: ${API_URL}

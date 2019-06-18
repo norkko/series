@@ -1,27 +1,31 @@
 package net.series.rest.http;
 
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+
+@Service
 public class Request {
 
     private static final Logger logger = LoggerFactory.getLogger(Request.class);
 
-    @Bean
-    public void test() {
-        Url query = new Url("suits");
-        logger.info("" + query.toString());
-
-        Url episode = new Url(37680, 1, 2);
-        logger.info("" + episode.toString());
-
-        Url season = new Url(37680, 1);
-        logger.info("" + season.toString());
-
-        Url url = new Url(37680);
-        logger.info("" + url.toString());
+    public Response send(String url) {
+        try {
+            JsonNode body = Unirest.get(url).asJson().getBody();
+            logger.info("" + body);
+            return this.respond(body);
+        } catch (UnirestException e) {
+            logger.error("Exception " + e);
+        }
+        return null;
     }
+
+    private Response respond(JsonNode json) {
+        return new Response(json);
+    }
+
 }
