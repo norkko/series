@@ -24,6 +24,8 @@ import java.util.List;
 @Component
 public class AccountServiceImpl implements AccountService{
 
+    // todo move appropriate methods to episode&series service/controller
+
     private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
     @Autowired
@@ -64,6 +66,11 @@ public class AccountServiceImpl implements AccountService{
         return accountRepository.findById(id).getSeries();
     }
 
+    @Override
+    public void saveSeason(Episode body, int id) {
+        // todo
+    }
+
     public void saveEpisode(Episode body, int id) {
         logger.info(String.format("saving episode %s/%s for %s ", body.getSeason(), body.getEpisode(), id));
         Account account = accountRepository.findById(id);
@@ -80,6 +87,12 @@ public class AccountServiceImpl implements AccountService{
         List<Episode> episodes = accountRepository.findById(id).getEpisodes();
         episodes.removeIf(item -> item.getSeries() != seriesId);
         return episodes;
+    }
+
+    @Override
+    public List<Episode> getEpisodes(int id) {
+        logger.info(String.format("fetching episodes for %s", id));
+        return accountRepository.findById(id).getEpisodes();
     }
 
     @Override

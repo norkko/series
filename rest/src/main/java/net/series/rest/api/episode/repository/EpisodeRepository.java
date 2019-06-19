@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 public interface EpisodeRepository extends JpaRepository<Episode, Integer> {
 
     /**
-     * Stores an episode
-     * @param episode episode body
+     * Sets an episode as watched
+     * @param episode episode JSON body
      */
     Episode save(Episode episode);
 }

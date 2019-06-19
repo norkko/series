@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     /**
-     * Stores an account
+     * Creates an account
      * @param account account body
      */
     Account save(Account account);

@@ -5,7 +5,6 @@ import net.series.rest.api.account.service.AccountService;
 import net.series.rest.api.episode.Episode;
 import net.series.rest.api.series.Series;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +37,11 @@ public class AccountController {
     @RequestMapping(value = "/episodes", method = RequestMethod.POST)
     public void saveEpisode(Authentication authentication, @RequestBody Episode body) {
         accountService.saveEpisode(body, accountService.findByUsername(authentication.getName()).getId());
+    }
+
+    @RequestMapping(value = "/episodes", method = RequestMethod.GET)
+    public List<Episode> getEpisodes(Authentication authentication) {
+        return accountService.getEpisodes(accountService.findByUsername(authentication.getName()).getId());
     }
 
     @RequestMapping(value = "/episodes/{id}", method = RequestMethod.GET)
