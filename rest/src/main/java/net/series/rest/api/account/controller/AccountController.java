@@ -6,6 +6,7 @@ import net.series.rest.api.episode.Episode;
 import net.series.rest.api.series.Series;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,36 +25,24 @@ public class AccountController {
         accountService.save(account);
     }
 
-    @RequestMapping(value = "/series/{id}", method = RequestMethod.POST)
-    public void saveSeries(@RequestBody Series body, @PathVariable int id) {
-        accountService.saveSeries(body, id);
+    @RequestMapping(value = "/series", method = RequestMethod.POST)
+    public void saveSeries(Authentication authentication, @RequestBody Series body) {
+        accountService.saveSeries(body, accountService.findByUsername(authentication.getName()).getId());
     }
 
-    @RequestMapping(value = "/series/{id}", method = RequestMethod.GET)
-    public List<Series> getSeries(@PathVariable int id) {
-        return accountService.getSeries(id);
+    @RequestMapping(value = "/series", method = RequestMethod.GET)
+    public List<Series> getSeries(Authentication authentication) {
+        return accountService.getSeries(accountService.findByUsername(authentication.getName()).getId());
     }
 
-    @RequestMapping(value = "/episodes/{id}", method = RequestMethod.POST)
-    public void saveEpisode(@RequestBody Episode body, @PathVariable int id) {
-        accountService.saveEpisode(body, id);
+    @RequestMapping(value = "/episodes", method = RequestMethod.POST)
+    public void saveEpisode(Authentication authentication, @RequestBody Episode body) {
+        accountService.saveEpisode(body, accountService.findByUsername(authentication.getName()).getId());
     }
 
-    @RequestMapping(value = "/episodes/{id}/{seriesId}", method = RequestMethod.GET)
-    public List<Episode> getEpisodesForSpecificSeries(@PathVariable int id, @PathVariable int seriesId) {
-        return accountService.getEpisodesForSpecificSeries(id, seriesId);
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping(value = "/hello")
-    public String hello() {
-        return "Hello World";
-    }
-
-
-    @GetMapping(value = "/world")
-    public String world() {
-        return "Hello World";
+    @RequestMapping(value = "/episodes/{id}", method = RequestMethod.GET)
+    public List<Episode> getEpisodesForSpecificSeries(Authentication authentication, @PathVariable int id) {
+        return accountService.getEpisodesForSpecificSeries(accountService.findByUsername(authentication.getName()).getId(), id);
     }
 
 }

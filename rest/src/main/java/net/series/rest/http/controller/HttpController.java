@@ -1,11 +1,13 @@
 package net.series.rest.http.controller;
 
+import net.series.rest.api.account.service.AccountService;
 import net.series.rest.http.Request;
 import net.series.rest.http.Response;
 import net.series.rest.http.Url;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +20,9 @@ public class HttpController {
     @Autowired
     private Request request;
 
+    @Autowired
+    private AccountService accountService;
+
     private static final Logger logger = LoggerFactory.getLogger(HttpController.class);
 
     @RequestMapping(value = "/search/{query}", method = RequestMethod.GET)
@@ -28,28 +33,28 @@ public class HttpController {
         return request.send(new Url(query).toString());
     }
 
-    @RequestMapping(value = "/series/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/series", method = RequestMethod.GET)
     public Response searchSpecificSeries(
-            @PathVariable int id) {
+            Authentication authentication) {
         logger.info("GET series");
-        return request.send(new Url(id).toString());
+        return request.send(new Url(accountService.findByUsername(authentication.getName()).getId()).toString());
     }
 
-    @RequestMapping(value = "/series/{id}/{season}", method = RequestMethod.GET)
+    @RequestMapping(value = "/series/{season}", method = RequestMethod.GET)
     public Response searchSpecificSeriesSeason(
-            @PathVariable int id,
+            Authentication authentication,
             @PathVariable int season) {
         logger.info("GET season");
-        return request.send(new Url(id, season).toString());
+        return request.send(new Url(accountService.findByUsername(authentication.getName()).getId(), season).toString());
     }
 
-    @RequestMapping(value = "/series/{id}/{season}/{episode}", method = RequestMethod.GET)
+    @RequestMapping(value = "/series/{season}/{episode}", method = RequestMethod.GET)
     public Response searchSpecificSeriesEpisode(
-            @PathVariable int id,
+            Authentication authentication,
             @PathVariable int season,
             @PathVariable int episode) {
         logger.info("GET episode");
-        return request.send(new Url(id, season, episode).toString());
+        return request.send(new Url(accountService.findByUsername(authentication.getName()).getId(), season, episode).toString());
     }
 
 }
