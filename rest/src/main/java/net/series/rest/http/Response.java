@@ -23,7 +23,6 @@ public class Response {
         String name;
         String overview;
         String first_air_date;
-        String original_name;
     }
 
     @Data

@@ -5,3 +5,13 @@ server:
 spring:
   application:
     name: series
+  datasource:
+    url: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
