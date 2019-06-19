@@ -1,8 +1,5 @@
-package net.series.rest.api.controller;
+package net.series.rest.http;
 
-import net.series.rest.http.Request;
-import net.series.rest.http.Response;
-import net.series.rest.http.Url;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api")
-public class HttpController {
+public class Controller {
 
     @Autowired
     private Request request;
 
-    private static final Logger logger = LoggerFactory.getLogger(HttpController.class);
+    private static final Logger logger = LoggerFactory.getLogger(Controller.class);
 
     @RequestMapping(value = "/search/{query}", method = RequestMethod.GET)
     public Response searchWithQuery(
