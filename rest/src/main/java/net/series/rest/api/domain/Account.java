@@ -12,15 +12,20 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
 
-    String username;
-    String password;
+    private String username;
+    private String password;
 
     @JsonManagedReference
     @OneToMany(
             targetEntity = Series.class,
             mappedBy = "account")
-    List<Series> series;
+    private List<Series> series;
 
+    @JsonManagedReference
+    @OneToMany(
+            targetEntity = Episode.class,
+            mappedBy = "account")
+    private List<Episode> episodes;
 }
