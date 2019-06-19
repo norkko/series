@@ -20,14 +20,10 @@ public class Account {
     private String password;
 
     @JsonManagedReference
-    @OneToMany(
-            targetEntity = Series.class,
-            mappedBy = "account")
+    @OneToMany(mappedBy = "account")
     private List<Series> series;
 
     @JsonManagedReference
-    @OneToMany(
-            targetEntity = Episode.class,
-            mappedBy = "account")
+    @OneToMany(mappedBy = "account")
     private List<Episode> episodes;
 }

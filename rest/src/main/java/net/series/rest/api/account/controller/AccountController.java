@@ -13,6 +13,8 @@ import java.util.List;
 @RequestMapping
 public class AccountController {
 
+    // todo error handling, validation, move some methods into episode/series controller/services
+
     @Autowired
     private AccountService accountService;
 

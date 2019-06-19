@@ -12,4 +12,5 @@ public interface SeriesRepository extends JpaRepository<Series, Integer> {
      * @param series series body
      */
     Series save(Series series);
+
 }

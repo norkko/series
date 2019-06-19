@@ -13,17 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api")
-public class Controller {
+public class HttpController {
 
     @Autowired
     private Request request;
 
-    private static final Logger logger = LoggerFactory.getLogger(Controller.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpController.class);
 
     @RequestMapping(value = "/search/{query}", method = RequestMethod.GET)
     public Response searchWithQuery(
             @PathVariable String query) {
-
         logger.info("" + query);
         logger.info("GET Query");
         return request.send(new Url(query).toString());

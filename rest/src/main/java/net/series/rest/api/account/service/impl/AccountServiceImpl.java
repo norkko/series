@@ -7,8 +7,6 @@ import net.series.rest.api.episode.Episode;
 import net.series.rest.api.episode.repository.EpisodeRepository;
 import net.series.rest.api.series.Series;
 import net.series.rest.api.series.repository.SeriesRepository;
-import net.series.rest.http.Request;
-import net.series.rest.http.Url;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,6 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
-
-    @Autowired
-    private Request request;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -38,6 +33,11 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(account);
     }
 
+    @Override
+    public Account findById(int id) {
+        return accountRepository.findById(id);
+    }
+
     public void saveSeries(Series body, int id) {
         logger.info(String.format("saving series %s for %s", body.getSeries(), id));
         Account account = accountRepository.findById(id);
@@ -51,6 +51,7 @@ public class AccountServiceImpl implements AccountService {
         logger.info(String.format("fetching series for %s", id));
         return accountRepository.findById(id).getSeries();
     }
+
 
     public void saveEpisode(Episode body, int id) {
         logger.info(String.format("saving episode %s/%s for %s ", body.getSeason(), body.getEpisode(), id));

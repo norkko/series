@@ -17,6 +17,12 @@ public interface AccountService {
     void save(Account account);
 
     /**
+     * Fetches account by id
+     * @param id account id
+     */
+    Account findById(int id);
+
+    /**
      * Stores a series for an account
      * @param body series body
      * @param id account id
@@ -35,6 +41,7 @@ public interface AccountService {
      * @param id account id
      */
     void saveEpisode(Episode body, int id);
+
 
     /**
      * Fetches all episodes for a specific series
