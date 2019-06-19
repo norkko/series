@@ -1,6 +1,6 @@
 package net.series.rest.api.account.service.impl;
 
-import net.series.rest.api.account.Account;
+import net.series.rest.api.account.domain.Account;
 import net.series.rest.api.account.repository.AccountRepository;
 import net.series.rest.api.account.service.AccountService;
 import net.series.rest.api.episode.Episode;
@@ -10,12 +10,19 @@ import net.series.rest.api.series.repository.SeriesRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 
 @Component
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountService{
 
     private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
@@ -28,8 +35,13 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private SeriesRepository seriesRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public void save(Account account) {
+        logger.info("saving account" + account.getUsername());
+        account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
         accountRepository.save(account);
     }
 
@@ -52,7 +64,6 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findById(id).getSeries();
     }
 
-
     public void saveEpisode(Episode body, int id) {
         logger.info(String.format("saving episode %s/%s for %s ", body.getSeason(), body.getEpisode(), id));
         Account account = accountRepository.findById(id);
@@ -71,4 +82,18 @@ public class AccountServiceImpl implements AccountService {
         return episodes;
     }
 
+    @Override
+    public Account findByUsername(String username) {
+        return accountRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Account account = findByUsername(username);
+        return new User(account.getUsername(), account.getPassword(), getAuthorities());
+    }
+
+    private static Collection<? extends GrantedAuthority> getAuthorities() {
+        return AuthorityUtils.createAuthorityList("ROLE_USER");
+    }
 }

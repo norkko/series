@@ -1,10 +1,11 @@
 package net.series.rest.api.account.controller;
 
-import net.series.rest.api.account.Account;
+import net.series.rest.api.account.domain.Account;
 import net.series.rest.api.account.service.AccountService;
 import net.series.rest.api.episode.Episode;
 import net.series.rest.api.series.Series;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +42,18 @@ public class AccountController {
     @RequestMapping(value = "/episodes/{id}/{seriesId}", method = RequestMethod.GET)
     public List<Episode> getEpisodesForSpecificSeries(@PathVariable int id, @PathVariable int seriesId) {
         return accountService.getEpisodesForSpecificSeries(id, seriesId);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping(value = "/hello")
+    public String hello() {
+        return "Hello World";
+    }
+
+
+    @GetMapping(value = "/world")
+    public String world() {
+        return "Hello World";
     }
 
 }

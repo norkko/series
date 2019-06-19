@@ -1,4 +1,4 @@
-package net.series.rest.api.account;
+package net.series.rest.api.account.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
@@ -26,4 +26,5 @@ public class Account {
     @JsonManagedReference
     @OneToMany(mappedBy = "account")
     private List<Episode> episodes;
+
 }

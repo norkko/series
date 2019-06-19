@@ -1,14 +1,15 @@
 package net.series.rest.api.account.service;
 
-import net.series.rest.api.account.Account;
+import net.series.rest.api.account.domain.Account;
 import net.series.rest.api.episode.Episode;
 import net.series.rest.api.series.Series;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public interface AccountService {
+public interface AccountService extends UserDetailsService {
 
     /**
      * Stores an account
@@ -49,4 +50,7 @@ public interface AccountService {
      * @param seriesId series id
      */
     List<Episode> getEpisodesForSpecificSeries(int id, int seriesId);
+
+    Account findByUsername(String username);
+
 }
