@@ -12,6 +12,7 @@ public class Response {
     public int id;
     public int number_of_seasons;
     public String overview;
+    public String name;
 
     public List<Result> results;
     public List<Season> seasons;

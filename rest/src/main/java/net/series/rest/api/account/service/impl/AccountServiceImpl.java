@@ -7,6 +7,8 @@ import net.series.rest.api.episode.Episode;
 import net.series.rest.api.episode.repository.EpisodeRepository;
 import net.series.rest.api.series.Series;
 import net.series.rest.api.series.repository.SeriesRepository;
+import net.series.rest.http.Request;
+import net.series.rest.http.Url;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
+
+    @Autowired
+    private Request request;
 
     @Autowired
     private AccountRepository accountRepository;

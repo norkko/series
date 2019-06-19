@@ -7,6 +7,16 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
+
+    /**
+     * Stores an account
+     * @param account account body
+     */
     Account save(Account account);
+
+    /**
+     * Fetches a stored account by id
+     * @param id account id
+     */
     Account findById(int id);
 }

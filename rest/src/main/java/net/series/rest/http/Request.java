@@ -15,15 +15,10 @@ public class Request {
 
     public Response send(String url) {
         try {
+            logger.info("sending GET");
             HttpResponse<JsonNode> json = Unirest.get(url).asJson();
-            logger.info("" + json.getBody());
-
-            Gson gson = new Gson();
             String body = json.getBody().toString();
-            Response obj = gson.fromJson(body, Response.class);
-            
-            logger.info("" + obj);
-            return obj;
+            return new Gson().fromJson(body, Response.class);
         } catch (Exception e) {
             logger.error("Exception " + e);
         }

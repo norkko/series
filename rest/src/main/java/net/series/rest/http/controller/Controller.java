@@ -1,5 +1,8 @@
-package net.series.rest.http;
+package net.series.rest.http.controller;
 
+import net.series.rest.http.Request;
+import net.series.rest.http.Response;
+import net.series.rest.http.Url;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,8 @@ public class Controller {
     @RequestMapping(value = "/search/{query}", method = RequestMethod.GET)
     public Response searchWithQuery(
             @PathVariable String query) {
+
+        logger.info("" + query);
         logger.info("GET Query");
         return request.send(new Url(query).toString());
     }
