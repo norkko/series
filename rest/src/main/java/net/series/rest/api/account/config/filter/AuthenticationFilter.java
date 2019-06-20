@@ -4,7 +4,7 @@ package net.series.rest.api.account.config.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import net.series.rest.api.account.domain.Account;
+import net.series.rest.api.account.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;

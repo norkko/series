@@ -1,6 +1,6 @@
 package net.series.rest.api.account.service;
 
-import net.series.rest.api.account.domain.Account;
+import net.series.rest.api.account.Account;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 

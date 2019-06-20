@@ -8,9 +8,7 @@ Things you need to run the application locally.
 - Maven
 
 ## Running locally
-If the application is to be run locally, the environment variables (`.env` file) has to be updated with an actual API key from [themoviedb.org]()    
-
-Creating `.env` file:   
+Create the `.env` file:    
 ```bash
 cp .env.example .env
 ```
@@ -24,10 +22,19 @@ docker-compose up
 ```
 
 ## Environment variables
-When running the application with docker-compose, the `.env` file provides all environment variables, these environment variables can be set on your local machine, or using the `.env` file. 
-## API
-If an endpoint requires the `Authorization` header (JWT), authenticated will be marked in the table.
+When creating the `.env` file, only `API_KEY` and `JWT_SECRET` has to be changed. [Getting an API key](https://www.themoviedb.org/faq/api?language=en-US)
 
+```bash
+API_URL                 # themoviedb url, already provided
+API_KEY                 # themoviedb API key, has to be changed
+MYSQL_ROOT_PASSWORD     # Mysql root password
+MYSQL_USER              # Mysql username
+MYSQL_PASSWORD          # Mysql password
+MYSQL_DATABASE          # Mysql database
+JWT_SECRET              # JWT secret used when computing signatures
+```
+
+## API
 ##### Account
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|------------------|-------------- |
@@ -45,15 +52,15 @@ If an endpoint requires the `Authorization` header (JWT), authenticated will be 
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|------------------|-------------- |
 | GET    | /episodes   |  Get all watched episodes  |  ✓ |  |  
-| POST    | /episodes   |  Set episode as watched    |  ✓ |  |  
-| POST    | /episodes/season   |  Set season of episodes as watched  |  ✓ |  |  
+| POST    | /episodes   |  Set episode as watched    |  ✓ | ✓ |  
+| POST    | /episodes/season   |  Set season of episodes as watched  |  ✓ | ✓ |  
 | DELETE   | /episodes/*id*   |  Remove season as watched |  ✓ |  ✓ |  
-| GET   | /episodes/*id*   |  Get all watched episodes of specific series |  ✓ |✓ |  
+| GET   | /episodes/*id*   |  Get all watched episodes of specific series |  ✓ | ✓ |  
 
 ##### API Wrapper for [themoviedb.org](https://developers.themoviedb.org/3)
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|--------------- | ----------------| 
-| GET | /search?*query* | Search series by query |   |  ✓ |
+| GET | /search?*query* | Search series by query |  ✓ |   |
 | GET | /series/*id* | Get specific series information   | ✓  | |
 | GET | /series/*id*/*season* | Get specific series season information | ✓  | |
 | GET | /series/*id*/*season*/*episode*| Get specific series episode information   |  ✓ | |

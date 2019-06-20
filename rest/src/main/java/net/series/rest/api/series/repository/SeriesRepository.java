@@ -6,11 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SeriesRepository extends JpaRepository<Series, Integer> {
-
-    /**
-     * Adds a series to the library
-     * @param series series JSON body
-     */
     Series save(Series series);
-
 }

@@ -22,7 +22,9 @@ public class HttpController {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpController.class);
 
-    @RequestMapping(value = "/search/{query}", method = RequestMethod.GET)
+    @RequestMapping(
+            value = "/search/{query}",
+            method = RequestMethod.GET)
     public Response searchWithQuery(
             @PathVariable String query) { // dont use PathVariable for query.
         logger.info("" + query);
@@ -30,14 +32,18 @@ public class HttpController {
         return request.send(new Url(query).toString());
     }
 
-    @RequestMapping(value = "/series/{id}", method = RequestMethod.GET)
+    @RequestMapping(
+            value = "/series/{id}",
+            method = RequestMethod.GET)
     public Response searchSpecificSeries(
             @PathVariable int id) {
         logger.info("GET series");
         return request.send(new Url(id).toString());
     }
 
-    @RequestMapping(value = "/series/{id}/{season}", method = RequestMethod.GET)
+    @RequestMapping(
+            value = "/series/{id}/{season}",
+            method = RequestMethod.GET)
     public Response searchSpecificSeriesSeason(
             @PathVariable int id,
             @PathVariable int season) {
@@ -45,7 +51,9 @@ public class HttpController {
         return request.send(new Url(id, season).toString());
     }
 
-    @RequestMapping(value = "/series/{id}/{season}/{episode}", method = RequestMethod.GET)
+    @RequestMapping(
+            value = "/series/{id}/{season}/{episode}",
+            method = RequestMethod.GET)
     public Response searchSpecificSeriesEpisode(
             @PathVariable int id,
             @PathVariable int season,

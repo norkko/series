@@ -1,6 +1,6 @@
 package net.series.rest.api.account.service.impl;
 
-import net.series.rest.api.account.domain.Account;
+import net.series.rest.api.account.Account;
 import net.series.rest.api.account.repository.AccountRepository;
 import net.series.rest.api.account.service.AccountService;
 import net.series.rest.api.exception.type.NotFoundException;

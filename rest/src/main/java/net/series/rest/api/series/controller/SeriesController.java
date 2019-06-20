@@ -15,7 +15,7 @@ public class SeriesController {
     private SeriesService seriesService;
 
     @RequestMapping(
-            value = "/series/save",
+            value = "/series",
             method = RequestMethod.POST)
     public void saveSeries(
             Authentication authentication,
@@ -34,7 +34,7 @@ public class SeriesController {
 
     @RequestMapping(
             value = "/series",
-            method = RequestMethod.POST)
+            method = RequestMethod.GET)
     public List<Series> getSeries(
             Authentication authentication) {
         return seriesService.getSeries(authentication);

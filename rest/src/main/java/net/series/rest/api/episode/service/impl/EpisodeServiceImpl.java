@@ -1,6 +1,5 @@
 package net.series.rest.api.episode.service.impl;
 
-import net.series.rest.api.account.domain.Account;
 import net.series.rest.api.account.service.AccountService;
 import net.series.rest.api.episode.Episode;
 import net.series.rest.api.episode.repository.EpisodeRepository;
@@ -24,6 +23,14 @@ public class EpisodeServiceImpl implements EpisodeService {
     @Autowired
     private AccountService accountService;
 
+
+    @Override
+    public List<Episode> getEpisodes(Authentication authentication) {
+        int id = accountService.findByUsername(authentication.getName()).getId();
+        logger.info(String.format("fetching episodes for %s", id));
+        return accountService.findById(id).getEpisodes();
+    }
+
     // dont allow dupes
     // only allow saved series to be saved by episode
     public void saveEpisode(Authentication authentication, Episode body) {
@@ -37,6 +44,7 @@ public class EpisodeServiceImpl implements EpisodeService {
         episode.setAccount(accountService.findById(id));
         episodeRepository.save(episode);
     }
+
 
     @Override
     public void saveEpisodesOfSeason(Authentication authentication, List<Episode> body) {
@@ -56,10 +64,4 @@ public class EpisodeServiceImpl implements EpisodeService {
         return episodes;
     }
 
-    @Override
-    public List<Episode> getEpisodes(Authentication authentication) {
-        int id = accountService.findByUsername(authentication.getName()).getId();
-        logger.info(String.format("fetching episodes for %s", id));
-        return accountService.findById(id).getEpisodes();
-    }
 }

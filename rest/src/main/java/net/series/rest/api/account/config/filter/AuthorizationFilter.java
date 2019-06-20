@@ -27,7 +27,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         this.accountService = accountService;
     }
 
-    private UsernamePasswordAuthenticationToken getAuthenticationToken(HttpServletRequest request) throws InvalidJwtTokenException {
+    private UsernamePasswordAuthenticationToken getAuthenticationToken(HttpServletRequest request) {
         try {
             String token = request.getHeader(HEADER_STRING);
             if (token == null) {
@@ -50,7 +50,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws InvalidJwtTokenException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
         try {
             String header = request.getHeader(HEADER_STRING);
             if (header == null || !header.startsWith(TOKEN_PREFIX)) {

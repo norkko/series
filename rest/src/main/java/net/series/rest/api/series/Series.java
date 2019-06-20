@@ -2,7 +2,7 @@ package net.series.rest.api.series;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
-import net.series.rest.api.account.domain.Account;
+import net.series.rest.api.account.Account;
 
 import javax.persistence.*;
 

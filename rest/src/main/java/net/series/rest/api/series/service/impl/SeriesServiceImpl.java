@@ -1,8 +1,7 @@
 package net.series.rest.api.series.service.impl;
 
-import net.series.rest.api.account.domain.Account;
+import net.series.rest.api.account.Account;
 import net.series.rest.api.account.service.AccountService;
-import net.series.rest.api.account.service.impl.AccountServiceImpl;
 import net.series.rest.api.series.Series;
 import net.series.rest.api.series.repository.SeriesRepository;
 import net.series.rest.api.series.service.SeriesService;

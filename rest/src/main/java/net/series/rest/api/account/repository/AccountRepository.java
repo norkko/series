@@ -1,6 +1,6 @@
 package net.series.rest.api.account.repository;
 
-import net.series.rest.api.account.domain.Account;
+import net.series.rest.api.account.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

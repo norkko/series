@@ -8,9 +8,9 @@ import java.util.List;
 
 @Service
 public interface EpisodeService {
+    List<Episode> getEpisodes(Authentication authentication);
     void saveEpisode(Authentication authentication, Episode body);
     void saveEpisodesOfSeason(Authentication authentication, List<Episode> body);
     void removeEpisode(Authentication authentication, int episodeId);
     List<Episode> getEpisodesForSpecificSeries(Authentication authentication, int seriesId);
-    List<Episode> getEpisodes(Authentication authentication);
 }

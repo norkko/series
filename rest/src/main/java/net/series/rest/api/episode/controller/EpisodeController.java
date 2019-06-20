@@ -15,7 +15,15 @@ public class EpisodeController {
     private EpisodeService episodeService;
 
     @RequestMapping(
-            value = "/episodes/save",
+            value = "/episodes",
+            method = RequestMethod.GET)
+    public List<Episode> getEpisodes(
+            Authentication authentication) {
+        return episodeService.getEpisodes(authentication);
+    }
+
+    @RequestMapping(
+            value = "/episodes",
             method = RequestMethod.POST)
     public void saveEpisode(
             Authentication authentication,
@@ -24,7 +32,7 @@ public class EpisodeController {
     }
 
     @RequestMapping(
-            value = "/episodes/season/save",
+            value = "/episodes/season",
             method = RequestMethod.POST)
     public void saveEpisodesOfSeason(
             Authentication authentication,
@@ -42,16 +50,8 @@ public class EpisodeController {
     }
 
     @RequestMapping(
-            value = "/episodes",
-            method = RequestMethod.POST)
-    public List<Episode> getEpisodes(
-            Authentication authentication) {
-        return episodeService.getEpisodes(authentication);
-    }
-
-    @RequestMapping(
             value = "/episodes/{id}",
-            method = RequestMethod.POST)
+            method = RequestMethod.GET)
     public List<Episode> getEpisodesForSpecificSeries(
             Authentication authentication,
             @PathVariable int id) {

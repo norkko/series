@@ -1,4 +1,4 @@
-package net.series.rest.api.account.domain;
+package net.series.rest.api.account;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
