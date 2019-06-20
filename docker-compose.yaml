@@ -25,3 +25,7 @@ services:
     ports:
       - 3306:3306
 
+  web:
+    build: ./web
+    ports:
+      - 8080:8080
