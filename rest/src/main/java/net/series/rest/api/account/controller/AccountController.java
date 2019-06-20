@@ -24,29 +24,29 @@ public class AccountController {
         accountService.save(account);
     }
 
-    @RequestMapping(value = "/series", method = RequestMethod.POST)
+    @RequestMapping(value = "/series/save", method = RequestMethod.POST)
     public void saveSeries(Authentication authentication, @RequestBody Series body) {
-        accountService.saveSeries(body, accountService.findByUsername(authentication.getName()).getId());
+        accountService.saveSeries(authentication, body);
     }
 
-    @RequestMapping(value = "/series", method = RequestMethod.GET)
+    @RequestMapping(value = "/series", method = RequestMethod.POST)
     public List<Series> getSeries(Authentication authentication) {
-        return accountService.getSeries(accountService.findByUsername(authentication.getName()).getId());
+        return accountService.getSeries(authentication);
+    }
+
+    @RequestMapping(value = "/episodes/save", method = RequestMethod.POST)
+    public void saveEpisode(Authentication authentication, @RequestBody Episode body) {
+        accountService.saveEpisode(authentication, body);
     }
 
     @RequestMapping(value = "/episodes", method = RequestMethod.POST)
-    public void saveEpisode(Authentication authentication, @RequestBody Episode body) {
-        accountService.saveEpisode(body, accountService.findByUsername(authentication.getName()).getId());
-    }
-
-    @RequestMapping(value = "/episodes", method = RequestMethod.GET)
     public List<Episode> getEpisodes(Authentication authentication) {
-        return accountService.getEpisodes(accountService.findByUsername(authentication.getName()).getId());
+        return accountService.getEpisodes(authentication);
     }
 
-    @RequestMapping(value = "/episodes/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/episodes/{id}", method = RequestMethod.POST)
     public List<Episode> getEpisodesForSpecificSeries(Authentication authentication, @PathVariable int id) {
-        return accountService.getEpisodesForSpecificSeries(accountService.findByUsername(authentication.getName()).getId(), id);
+        return accountService.getEpisodesForSpecificSeries(authentication, id);
     }
 
 }

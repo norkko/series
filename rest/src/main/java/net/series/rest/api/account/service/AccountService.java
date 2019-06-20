@@ -12,62 +12,26 @@ import java.util.List;
 @Service
 public interface AccountService extends UserDetailsService {
 
-    /**
-     * Stores an account
-     * @param account account body
-     */
     void save(Account account);
 
-    /**
-     * Fetches account by id
-     * @param id account id
-     */
     Account findById(int id);
 
-    /**
-     * Stores a series for an account
-     * @param body series body
-     * @param id account id
-     */
-    void saveSeries(Series body, int id);
+    void saveSeries(Authentication authentication, Series body);
 
-    /**
-     * Fetches all series for an account
-     * @param id account id
-     */
-    List<Series> getSeries(int id);
+    void removeSeries(Authentication authentication, int seriesId);
 
-    /**
-     * Sets a season as watched
-     * @param body episode body
-     * @param id account id
-     */
-    void saveSeason(Episode body, int id);
+    List<Series> getSeries(Authentication authentication);
 
-    /**
-     * Sets an episode as watched
-     * @param body episode body
-     * @param id account id
-     */
-    void saveEpisode(Episode body, int id);
+    void saveSeason(Authentication authentication, Episode body);
 
-    /**
-     * Fetches all watched episodes of specific series
-     * @param id account id
-     * @param seriesId series id
-     */
-    List<Episode> getEpisodesForSpecificSeries(int id, int seriesId);
+    void saveEpisode(Authentication authentication, Episode body);
 
-    /**
-     * Fetches all watched episodes
-     * @param id account id
-     */
-    List<Episode> getEpisodes(int id);
+    void removeEpisode(Authentication authentication, int episodeId);
 
-    /**
-     * Fetches account by username field
-     * @param username username field
-     */
+    List<Episode> getEpisodesForSpecificSeries(Authentication authentication, int seriesId);
+
+    List<Episode> getEpisodes(Authentication authentication);
+
     Account findByUsername(String username);
 
 }

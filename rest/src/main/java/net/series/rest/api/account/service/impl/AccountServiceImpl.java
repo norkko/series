@@ -12,6 +12,7 @@ import net.series.rest.api.series.repository.SeriesRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -60,7 +61,9 @@ public class AccountServiceImpl implements AccountService{
         return accountRepository.findById(id);
     }
 
-    public void saveSeries(Series body, int id) {
+    // dont allow duplicate
+    public void saveSeries(Authentication authentication, Series body) throws NotFoundException {
+        int id = findByUsername(authentication.getName()).getId();
         logger.info(String.format("saving series %s for %s", body.getSeries(), id));
         Account account = findById(id);
         Series series = new Series();
@@ -69,28 +72,46 @@ public class AccountServiceImpl implements AccountService{
         seriesRepository.save(series);
     }
 
-    public List<Series> getSeries(int id) {
+    @Override
+    public void removeSeries(Authentication authentication, int seriesId) {
+        // todo
+    }
+
+    @Override
+    public List<Series> getSeries(Authentication authentication) throws NotFoundException {
+        int id = findByUsername(authentication.getName()).getId();
         logger.info(String.format("fetching series for %s", id));
         return findById(id).getSeries();
     }
 
     @Override
-    public void saveSeason(Episode body, int id) {
+    public void saveSeason(Authentication authentication, Episode body) {
         // todo
     }
 
-    public void saveEpisode(Episode body, int id) {
+    // dont allow dupes
+    // only allow saved series to be saved by episode
+    public void saveEpisode(Authentication authentication, Episode body) throws NotFoundException {
+        int id = findByUsername(authentication.getName()).getId();
         logger.info(String.format("saving episode %s/%s for %s ", body.getSeason(), body.getEpisode(), id));
         Account account = findById(id);
+
         Episode episode = new Episode();
         episode.setSeries(body.getSeries());
         episode.setEpisode(body.getEpisode());
         episode.setSeason(body.getSeason());
         episode.setAccount(account);
+
         episodeRepository.save(episode);
     }
 
-    public List<Episode> getEpisodesForSpecificSeries(int id, int seriesId) {
+    @Override
+    public void removeEpisode(Authentication authentication, int episodeId) {
+        // todo
+    }
+
+    public List<Episode> getEpisodesForSpecificSeries(Authentication authentication, int seriesId) throws NotFoundException {
+        int id = findByUsername(authentication.getName()).getId();
         logger.info(String.format("fetching episodes from %s for %s", seriesId, id));
         List<Episode> episodes = findById(id).getEpisodes();
         episodes.removeIf(item -> item.getSeries() != seriesId);
@@ -98,13 +119,14 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public List<Episode> getEpisodes(int id) throws NotFoundException {
+    public List<Episode> getEpisodes(Authentication authentication) throws NotFoundException {
+        int id = findByUsername(authentication.getName()).getId();
         logger.info(String.format("fetching episodes for %s", id));
         return findById(id).getEpisodes();
     }
 
     @Override
-    public Account findByUsername(String username) {
+    public Account findByUsername(String username) throws NotFoundException {
         return accountRepository.findByUsername(username);
     }
 
@@ -117,4 +139,5 @@ public class AccountServiceImpl implements AccountService{
     private static Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.createAuthorityList("ROLE_USER");
     }
+
 }
