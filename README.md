@@ -35,6 +35,7 @@ JWT_SECRET              # JWT secret used when computing signatures
 ```
 
 ## API
+If an endpoint requires the `Authorization` header it will be marked `✓` in the `Authenticated` column.
 ##### Account
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|------------------|-------------- |
