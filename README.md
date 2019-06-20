@@ -5,6 +5,7 @@ Series is a web-application for tracking progress of series easily.
 Things you need to run the application locally.
 - Java 8
 - Docker
+- Maven
 
 ## Running locally
 Package backend:
@@ -23,6 +24,7 @@ docker-compose up
 
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|------------------|-------------- |
+| POST   | /login | Log in with account |  | ✓ |  
 | POST   | /register | Register account |  | ✓ |  
 | POST   | /series   | Add series to library  |   ✓ |  ✓ |  
 | GET    | /series   | Get library of series  |   ✓ |  ✓ |  
@@ -32,7 +34,7 @@ docker-compose up
 | POST   | /seasons   |  Set season as watched |  ✓ |✓ |  
 
 
-##### Movie API Wrapper
+##### [themoviedb](https://developers.themoviedb.org/3) API Wrapper
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|--------------- | ----------------| 
 | GET | /search?*query* | Search series by query |   |  ✓ |

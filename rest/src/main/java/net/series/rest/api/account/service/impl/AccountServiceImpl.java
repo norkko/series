@@ -5,6 +5,8 @@ import net.series.rest.api.account.repository.AccountRepository;
 import net.series.rest.api.account.service.AccountService;
 import net.series.rest.api.episode.Episode;
 import net.series.rest.api.episode.repository.EpisodeRepository;
+import net.series.rest.api.exception.type.NotFoundException;
+import net.series.rest.api.exception.type.UsernameAlreadyExistException;
 import net.series.rest.api.series.Series;
 import net.series.rest.api.series.repository.SeriesRepository;
 import org.slf4j.Logger;
@@ -42,19 +44,25 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public void save(Account account) {
-        logger.info("saving account" + account.getUsername());
+        if (accountRepository.findByUsername(account.getUsername()) != null) {
+            throw new UsernameAlreadyExistException("Username exists");
+        }
+        logger.info("saving account " + account.getUsername());
         account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
         accountRepository.save(account);
     }
 
     @Override
     public Account findById(int id) {
+        if (accountRepository.findById(id) == null) {
+            throw new NotFoundException("Account not found");
+        }
         return accountRepository.findById(id);
     }
 
     public void saveSeries(Series body, int id) {
         logger.info(String.format("saving series %s for %s", body.getSeries(), id));
-        Account account = accountRepository.findById(id);
+        Account account = findById(id);
         Series series = new Series();
         series.setSeries(body.getSeries());
         series.setAccount(account);
@@ -63,7 +71,7 @@ public class AccountServiceImpl implements AccountService{
 
     public List<Series> getSeries(int id) {
         logger.info(String.format("fetching series for %s", id));
-        return accountRepository.findById(id).getSeries();
+        return findById(id).getSeries();
     }
 
     @Override
@@ -73,7 +81,7 @@ public class AccountServiceImpl implements AccountService{
 
     public void saveEpisode(Episode body, int id) {
         logger.info(String.format("saving episode %s/%s for %s ", body.getSeason(), body.getEpisode(), id));
-        Account account = accountRepository.findById(id);
+        Account account = findById(id);
         Episode episode = new Episode();
         episode.setSeries(body.getSeries());
         episode.setEpisode(body.getEpisode());
@@ -84,15 +92,15 @@ public class AccountServiceImpl implements AccountService{
 
     public List<Episode> getEpisodesForSpecificSeries(int id, int seriesId) {
         logger.info(String.format("fetching episodes from %s for %s", seriesId, id));
-        List<Episode> episodes = accountRepository.findById(id).getEpisodes();
+        List<Episode> episodes = findById(id).getEpisodes();
         episodes.removeIf(item -> item.getSeries() != seriesId);
         return episodes;
     }
 
     @Override
-    public List<Episode> getEpisodes(int id) {
+    public List<Episode> getEpisodes(int id) throws NotFoundException {
         logger.info(String.format("fetching episodes for %s", id));
-        return accountRepository.findById(id).getEpisodes();
+        return findById(id).getEpisodes();
     }
 
     @Override
