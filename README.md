@@ -39,7 +39,7 @@ APP_SECRET              # Python secret
 
 ## API
 If an endpoint requires the `Authorization` header it will be marked `✓` in the `Authenticated` column.
-##### Account
+##### [Account](https://github.com/august-norkko/series/blob/master/rest/src/main/java/net/series/rest/api/account/controller/AccountController.java)
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|------------------|-------------- |
 | POST   | /register | Register account |  | ✓ |  
@@ -47,14 +47,14 @@ If an endpoint requires the `Authorization` header it will be marked `✓` in th
 | PUT   | /update | Update account | ✓ | ✓ |  
 | DELETE   | /remove | Delete account | ✓ | ✓ |  
 
-##### Series
+##### [Series](https://github.com/august-norkko/series/blob/master/rest/src/main/java/net/series/rest/api/series/controller/SeriesController.java)
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|------------------|-------------- |
 | POST   | /series   | Add series to library  |   ✓ |  ✓ |  
 | DELETE   | /series/**_id_**   | Remove series from library  |   ✓ |  ✓ |  
 | GET    | /series   | Get library of series  |   ✓ |  ✓ |  
 
-##### Episodes
+##### [Episodes](https://github.com/august-norkko/series/blob/master/rest/src/main/java/net/series/rest/api/episode/controller/EpisodeController.java)
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|------------------|-------------- |
 | GET    | /episodes   |  Get all watched episodes  |  ✓ |  |  
@@ -62,7 +62,7 @@ If an endpoint requires the `Authorization` header it will be marked `✓` in th
 | DELETE    | /episodes/**_id_**   |  Remove episode as watched    |  ✓ | ✓ |  
 | GET   | /episodes/**_id_**   |  Get all watched episodes of specific series |  ✓ | ✓ |  
 
-##### API Wrapper for [themoviedb.org](https://developers.themoviedb.org/3)
+##### [API Wrapper](https://github.com/august-norkko/series/blob/master/rest/src/main/java/net/series/rest/http/controller/HttpController.java) for [themoviedb.org](https://developers.themoviedb.org/3)
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|--------------- | ----------------| 
 | GET | /search?**_query_** | Search series by query |  ✓ |   |

@@ -1,13 +1,9 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, session, escape
 
 blueprint = Blueprint('home', __name__)
 
 @blueprint.route("/")
 def home():
-    return "home"
-
-blueprintt = Blueprint('yeet', __name__)
-
-@blueprintt.route("/")
-def yeet():
-    return "home"
+		if 'token' in session:
+				return 'Logged in with token %s' % escape(session['token'])
+		return 'You are not logged in'
