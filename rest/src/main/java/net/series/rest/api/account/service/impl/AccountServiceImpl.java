@@ -86,6 +86,11 @@ public class AccountServiceImpl implements AccountService  {
     }
 
     @Override
+    public Account save(Account account) {
+        return accountRepository.save(account);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) {
         Account account = findByUsername(username);
         return new User(account.getUsername(), account.getPassword(), getAuthorities());

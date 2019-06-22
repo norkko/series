@@ -25,13 +25,6 @@ public interface EpisodeService {
     /**
      *
      * @param authentication
-     * @param body
-     */
-    void saveEpisodesOfSeason(Authentication authentication, List<Episode> body);
-
-    /**
-     *
-     * @param authentication
      * @param episodeId
      */
     void removeEpisode(Authentication authentication, int episodeId);

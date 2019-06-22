@@ -32,15 +32,6 @@ public class EpisodeController {
     }
 
     @RequestMapping(
-            value = "/episodes/season",
-            method = RequestMethod.POST)
-    public void saveEpisodesOfSeason(
-            Authentication authentication,
-            @RequestBody List<Episode> body) {
-        episodeService.saveEpisodesOfSeason(authentication, body);
-    }
-
-    @RequestMapping(
             value = "/episodes/{id}",
             method = RequestMethod.DELETE)
     public void removeEpisode(

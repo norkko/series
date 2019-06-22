@@ -39,8 +39,10 @@ If an endpoint requires the `Authorization` header it will be marked `✓` in th
 ##### Account
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|------------------|-------------- |
-| POST   | /login | Log in with account |  | ✓ |  
 | POST   | /register | Register account |  | ✓ |  
+| POST   | /login | Log in with account |  | ✓ |  
+| PUT   | /update | Update account | ✓ | ✓ |  
+| DELETE   | /remove | Delete account | ✓ | ✓ |  
 
 ##### Series
 | Method | URL       | Description    | Authenticated | Available from UI | 
@@ -54,8 +56,7 @@ If an endpoint requires the `Authorization` header it will be marked `✓` in th
 |--------|-----------|---------------|------------------|-------------- |
 | GET    | /episodes   |  Get all watched episodes  |  ✓ |  |  
 | POST    | /episodes   |  Set episode as watched    |  ✓ | ✓ |  
-| POST    | /episodes/season   |  Set season of episodes as watched  |  ✓ | ✓ |  
-| DELETE   | /episodes/*id*   |  Remove season as watched |  ✓ |  ✓ |  
+| DELETE    | /episodes/*id*   |  Remove episode as watched    |  ✓ | ✓ |  
 | GET   | /episodes/*id*   |  Get all watched episodes of specific series |  ✓ | ✓ |  
 
 ##### API Wrapper for [themoviedb.org](https://developers.themoviedb.org/3)

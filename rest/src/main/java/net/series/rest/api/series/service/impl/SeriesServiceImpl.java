@@ -34,9 +34,11 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public void removeSeries(Authentication authentication, int id) {
-        // Remove from account.geSeries(), since
-        // orphans (in series entity) are removed.
+    public void removeSeries(Authentication authentication, int seriesId) {
+        int id = accountService.findByUsername(authentication.getName()).getId();
+        Account account = accountService.findById(id);
+        account.getSeries().removeIf(series -> series.getId() == seriesId);
+        accountService.save(account);
     }
 
     @Override
