@@ -1,10 +1,9 @@
-package net.series.rest.api.series.service.impl;
+package net.series.rest.api.series.service;
 
 import net.series.rest.api.account.Account;
 import net.series.rest.api.account.service.AccountService;
 import net.series.rest.api.series.Series;
 import net.series.rest.api.series.repository.SeriesRepository;
-import net.series.rest.api.series.service.SeriesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

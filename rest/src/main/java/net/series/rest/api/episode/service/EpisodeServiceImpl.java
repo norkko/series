@@ -1,10 +1,9 @@
-package net.series.rest.api.episode.service.impl;
+package net.series.rest.api.episode.service;
 
 import net.series.rest.api.account.Account;
 import net.series.rest.api.account.service.AccountService;
 import net.series.rest.api.episode.Episode;
 import net.series.rest.api.episode.repository.EpisodeRepository;
-import net.series.rest.api.episode.service.EpisodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
