@@ -6,10 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EpisodeRepository extends JpaRepository<Episode, Integer> {
-    /**
-     *
-     * @param episode
-     */
+
     Episode save(Episode episode);
 
 }

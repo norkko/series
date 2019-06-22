@@ -3,8 +3,6 @@ package net.series.rest.api.account.service.impl;
 import net.series.rest.api.account.Account;
 import net.series.rest.api.account.repository.AccountRepository;
 import net.series.rest.api.account.service.AccountService;
-import net.series.rest.api.exception.type.NotFoundException;
-import net.series.rest.api.exception.type.UsernameAlreadyExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,80 +22,113 @@ public class AccountServiceImpl implements AccountService  {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     @Autowired
     private AccountRepository accountRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Account registerAccount(Account account) {
         if (findByUsername(account.getUsername()) != null) {
-            throw new UsernameAlreadyExistException("Username already exists");
+            throw new IllegalArgumentException("Username already exists " + account.getUsername());
         }
-        logger.info("saving account " + account.getUsername());
-        account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
+
+        account.setPassword(encoder.encode(account.getPassword()));
+        logger.info("Account saved " + account.getUsername());
         return accountRepository.save(account);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Account updateAccount(
             Authentication authentication,
             @RequestBody Account body) {
-        int id = findByUsername(authentication.getName()).getId();
+        int id = getId(authentication);
+
         Account account = findById(id);
-        logger.info("updating account ", account.getUsername());
-        // update fields from body
+        // Update fields from body
+
+        logger.info("Account updated " + account.getUsername());
         return accountRepository.save(account);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeAccount(Authentication authentication) {
-        int id = findByUsername(authentication.getName()).getId();
-        logger.info("removing account", authentication.getName());
+        int id = getId(authentication);
 
-        // remove foreign keys
+        // Remove foreign keys
         Account account = findById(id);
         account.getSeries().clear();
         account.getEpisodes().clear();
         accountRepository.save(account);
 
-        // remove account
         accountRepository.deleteById(id);
+        logger.info("Account removed " + authentication.getName());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Account findById(int id) {
         if (accountRepository.findById(id) == null) {
-            throw new NotFoundException("Account not found");
+            throw new IllegalArgumentException("Account not found");
         }
 
         return accountRepository.findById(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Account findByUsername(String username) {
-        try {
-            return accountRepository.findByUsername(username);
-        } catch (Exception e) {
-            logger.info("account is null");
-            return null;
-        }
+        return accountRepository.findByUsername(username);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Account save(Account account) {
         return accountRepository.save(account);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UserDetails loadUserByUsername(String username) {
         Account account = findByUsername(username);
         return new User(account.getUsername(), account.getPassword(), getAuthorities());
-
     }
 
+    /**
+     * Creates an authority list containing only the role ROLE_USER
+     *
+     * @return account authorities
+     */
     private static Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.createAuthorityList("ROLE_USER");
     }
+
+    /**
+     * Helper method for finding account ids,
+     * using an authorization header on requests
+     *
+     * @param authentication
+     * @return found account id
+     */
+    private int getId(Authentication authentication) {
+        return findByUsername(authentication.getName()).getId();
+    }
+
 }

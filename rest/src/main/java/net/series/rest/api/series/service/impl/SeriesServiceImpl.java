@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @Component
@@ -25,27 +24,53 @@ public class SeriesServiceImpl implements SeriesService {
     @Autowired
     private SeriesRepository seriesRepository;
 
-    // dont allow duplicate
-    public Series saveSeries(Authentication authentication, Series series) {
-        int id = accountService.findByUsername(authentication.getName()).getId();
-        logger.info(String.format("saving series %s for %s", series.getSeries(), id));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void saveSeries(Authentication authentication, Series series) {
+        int id = getId(authentication);
+
         series.setAccount(accountService.findById(id));
-        return seriesRepository.save(series);
+        seriesRepository.save(series);
+
+        logger.info("Series saved " + series.getSeries());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeSeries(Authentication authentication, int seriesId) {
-        int id = accountService.findByUsername(authentication.getName()).getId();
+        int id = getId(authentication);
+
         Account account = accountService.findById(id);
         account.getSeries().removeIf(series -> series.getId() == seriesId);
         accountService.save(account);
+
+        logger.info("Series removed" + seriesId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Series> getSeries(Authentication authentication) {
-        int id = accountService.findByUsername(authentication.getName()).getId();
-        logger.info(String.format("fetching series for %s", id));
+        int id = getId(authentication);
+
+        logger.info("Series fetched");
         return accountService.findById(id).getSeries();
+    }
+
+    /**
+     * Helper method for finding account ids,
+     * using an authorization header on requests
+     *
+     * @param authentication
+     * @return found account id
+     */
+    private int getId(Authentication authentication) {
+        return accountService.findByUsername(authentication.getName()).getId();
     }
 
 }

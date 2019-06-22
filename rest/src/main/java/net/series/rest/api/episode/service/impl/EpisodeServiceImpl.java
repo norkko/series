@@ -24,35 +24,68 @@ public class EpisodeServiceImpl implements EpisodeService {
     @Autowired
     private AccountService accountService;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Episode> getEpisodes(Authentication authentication) {
-        int id = accountService.findByUsername(authentication.getName()).getId();
-        logger.info(String.format("fetching episodes for %s", id));
+        int id = getId(authentication);
+
+        logger.info("Episodes fetched");
         return accountService.findById(id).getEpisodes();
     }
 
-    // only allow saved series to be saved by episode
-    public void saveEpisode(Authentication authentication, Episode episode)  {
-        int id = accountService.findByUsername(authentication.getName()).getId();
-        logger.info(String.format("saving episode %s/%s for %s ", episode.getSeason(), episode.getEpisode(), id));
-        episode.setAccount(accountService.findById(id));
-        episodeRepository.save(episode);
-    }
+    /**
+     * {@inheritDoc}
+     */
 
     @Override
+    public void saveEpisode(Authentication authentication, Episode episode)  {
+        int id = getId(authentication);
+
+        // only allow saved series to be saved by episode
+        episode.setAccount(accountService.findById(id));
+        episodeRepository.save(episode);
+
+        logger.info("Episode saved");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void removeEpisode(Authentication authentication, int episodeId) {
-        int id = accountService.findByUsername(authentication.getName()).getId();
+        int id = getId(authentication);
+
         Account account = accountService.findById(id);
         account.getEpisodes().removeIf(episode -> episode.getId() == episodeId);
         accountService.save(account);
+
+        logger.info("Episode removed " + episodeId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<Episode> getEpisodesForSpecificSeries(Authentication authentication, int seriesId) {
-        int id = accountService.findByUsername(authentication.getName()).getId();
-        logger.info(String.format("fetching episodes from %s for %s", seriesId, id));
+        int id = getId(authentication);
+
         List<Episode> episodes = accountService.findById(id).getEpisodes();
         episodes.removeIf(item -> item.getSeries() != seriesId);
+
+        logger.info("Episodes fetched from series" + seriesId);
         return episodes;
+    }
+
+    /**
+     * Helper method for finding account ids,
+     * using an authorization header on requests
+     *
+     * @param authentication
+     * @return found account id
+     */
+    private int getId(Authentication authentication) {
+        return accountService.findByUsername(authentication.getName()).getId();
     }
 
 }
