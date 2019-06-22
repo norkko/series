@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Url {
-    private static final String BASE_URL = System.getenv("API_URL");
+    private static final String BASE_URL = "https://api.themoviedb.org/3";
     private static final String API_KEY = System.getenv("API_KEY");
 
     private Integer id;
