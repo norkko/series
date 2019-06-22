@@ -3,11 +3,16 @@ package net.series.rest.api.account.service.impl;
 import net.series.rest.api.account.Account;
 import net.series.rest.api.account.repository.AccountRepository;
 import net.series.rest.api.account.service.AccountService;
+import net.series.rest.api.episode.Episode;
 import net.series.rest.api.exception.type.NotFoundException;
 import net.series.rest.api.exception.type.UsernameAlreadyExistException;
+import net.series.rest.api.series.Series;
+import net.series.rest.api.series.repository.SeriesRepository;
+import net.series.rest.api.series.service.SeriesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -16,11 +21,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.List;
 
 @Component
 public class AccountServiceImpl implements AccountService  {
-
-    // todo move appropriate methods to episode&series service/controller
 
     private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
@@ -30,8 +34,11 @@ public class AccountServiceImpl implements AccountService  {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private SeriesService seriesService;
+
     @Override
-    public Account save(Account account) {
+    public Account registerAccount(Account account) {
         if (findByUsername(account.getUsername()) != null) {
             throw new UsernameAlreadyExistException("Username exists");
         }
@@ -60,6 +67,25 @@ public class AccountServiceImpl implements AccountService  {
             logger.info("account is null");
             return null;
         }
+    }
+
+    @Override
+    public void updateAccount(Authentication authentication) {
+
+    }
+
+    @Override
+    public void removeAccount(Authentication authentication) {
+        int id = findByUsername(authentication.getName()).getId();
+
+        // remove foreign keys
+        Account account = findById(id);
+        account.getSeries().clear();
+        account.getEpisodes().clear();
+        accountRepository.save(account);
+
+        // remove account
+        accountRepository.deleteById(id);
     }
 
     @Override

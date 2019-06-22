@@ -20,11 +20,17 @@ public class Account {
     private String password;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "account")
+    @OneToMany(
+            mappedBy = "account",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL)
     private List<Series> series;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "account")
+    @OneToMany(
+            mappedBy = "account",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL)
     private List<Episode> episodes;
 
 }

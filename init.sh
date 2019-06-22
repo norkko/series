@@ -1,10 +1,5 @@
 #!/bin/bash
 
-
 rm -rf rest/target/
-cd rest
-mvn package
-cd ..
-
+mvn -f ./rest package
 docker-compose up --build
-

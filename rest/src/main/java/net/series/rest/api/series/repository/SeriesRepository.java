@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SeriesRepository extends JpaRepository<Series, Integer> {
     Series save(Series series);
+    void removeById(int id);
 }
