@@ -6,15 +6,16 @@ import lombok.Data;
 public class Exception {
 
     private String error;
-    private int errorCode;
+
+    private int status;
 
     public Exception() {
 
     }
 
-    public Exception(String error, int errorCode) {
+    public Exception(String error, int status) {
         this.error = error;
-        this.errorCode = errorCode;
+        this.status = status;
     }
 
 }

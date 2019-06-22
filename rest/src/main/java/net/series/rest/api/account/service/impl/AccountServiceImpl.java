@@ -3,12 +3,8 @@ package net.series.rest.api.account.service.impl;
 import net.series.rest.api.account.Account;
 import net.series.rest.api.account.repository.AccountRepository;
 import net.series.rest.api.account.service.AccountService;
-import net.series.rest.api.episode.Episode;
 import net.series.rest.api.exception.type.NotFoundException;
 import net.series.rest.api.exception.type.UsernameAlreadyExistException;
-import net.series.rest.api.series.Series;
-import net.series.rest.api.series.repository.SeriesRepository;
-import net.series.rest.api.series.service.SeriesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +15,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collection;
-import java.util.List;
 
 @Component
 public class AccountServiceImpl implements AccountService  {
@@ -34,20 +30,40 @@ public class AccountServiceImpl implements AccountService  {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private SeriesService seriesService;
-
     @Override
     public Account registerAccount(Account account) {
         if (findByUsername(account.getUsername()) != null) {
-            throw new UsernameAlreadyExistException("Username exists");
+            throw new UsernameAlreadyExistException("Username already exists");
         }
-
         logger.info("saving account " + account.getUsername());
         account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public Account updateAccount(
+            Authentication authentication,
+            @RequestBody Account body) {
+        int id = findByUsername(authentication.getName()).getId();
+        Account account = findById(id);
+        logger.info("updating account ", account.getUsername());
+        // update fields from body
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public void removeAccount(Authentication authentication) {
+        int id = findByUsername(authentication.getName()).getId();
+        logger.info("removing account", authentication.getName());
+
+        // remove foreign keys
+        Account account = findById(id);
+        account.getSeries().clear();
+        account.getEpisodes().clear();
         accountRepository.save(account);
 
-        return account;
+        // remove account
+        accountRepository.deleteById(id);
     }
 
     @Override
@@ -67,25 +83,6 @@ public class AccountServiceImpl implements AccountService  {
             logger.info("account is null");
             return null;
         }
-    }
-
-    @Override
-    public void updateAccount(Authentication authentication) {
-
-    }
-
-    @Override
-    public void removeAccount(Authentication authentication) {
-        int id = findByUsername(authentication.getName()).getId();
-
-        // remove foreign keys
-        Account account = findById(id);
-        account.getSeries().clear();
-        account.getEpisodes().clear();
-        accountRepository.save(account);
-
-        // remove account
-        accountRepository.deleteById(id);
     }
 
     @Override

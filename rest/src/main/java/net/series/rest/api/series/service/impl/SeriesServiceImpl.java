@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @Component
@@ -25,19 +26,17 @@ public class SeriesServiceImpl implements SeriesService {
     private SeriesRepository seriesRepository;
 
     // dont allow duplicate
-    public void saveSeries(Authentication authentication, Series body) {
+    public Series saveSeries(Authentication authentication, Series series) {
         int id = accountService.findByUsername(authentication.getName()).getId();
-        logger.info(String.format("saving series %s for %s", body.getSeries(), id));
-        Account account = accountService.findById(id);
-        Series series = new Series();
-        series.setSeries(body.getSeries());
-        series.setAccount(account);
-        seriesRepository.save(series);
+        logger.info(String.format("saving series %s for %s", series.getSeries(), id));
+        series.setAccount(accountService.findById(id));
+        return seriesRepository.save(series);
     }
 
     @Override
     public void removeSeries(Authentication authentication, int id) {
-        // todo
+        // Remove from account.geSeries(), since
+        // orphans (in series entity) are removed.
     }
 
     @Override

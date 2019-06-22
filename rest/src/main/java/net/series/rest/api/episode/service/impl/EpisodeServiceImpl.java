@@ -4,12 +4,14 @@ import net.series.rest.api.account.service.AccountService;
 import net.series.rest.api.episode.Episode;
 import net.series.rest.api.episode.repository.EpisodeRepository;
 import net.series.rest.api.episode.service.EpisodeService;
+import net.series.rest.api.exception.type.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @Component
@@ -22,8 +24,6 @@ public class EpisodeServiceImpl implements EpisodeService {
 
     @Autowired
     private AccountService accountService;
-
-
     @Override
     public List<Episode> getEpisodes(Authentication authentication) {
         int id = accountService.findByUsername(authentication.getName()).getId();
@@ -31,20 +31,13 @@ public class EpisodeServiceImpl implements EpisodeService {
         return accountService.findById(id).getEpisodes();
     }
 
-    // dont allow dupes
     // only allow saved series to be saved by episode
-    public void saveEpisode(Authentication authentication, Episode body) {
+    public void saveEpisode(Authentication authentication, Episode episode)  {
         int id = accountService.findByUsername(authentication.getName()).getId();
-        logger.info(String.format("saving episode %s/%s for %s ", body.getSeason(), body.getEpisode(), id));
-
-        Episode episode = new Episode();
-        episode.setSeries(body.getSeries());
-        episode.setEpisode(body.getEpisode());
-        episode.setSeason(body.getSeason());
+        logger.info(String.format("saving episode %s/%s for %s ", episode.getSeason(), episode.getEpisode(), id));
         episode.setAccount(accountService.findById(id));
         episodeRepository.save(episode);
     }
-
 
     @Override
     public void saveEpisodesOfSeason(Authentication authentication, List<Episode> body) {
@@ -53,7 +46,8 @@ public class EpisodeServiceImpl implements EpisodeService {
 
     @Override
     public void removeEpisode(Authentication authentication, int episodeId) {
-        // todo
+        // Remove from account.getEpisodes(), since
+        // orphans (in episode entity) are removed.
     }
 
     public List<Episode> getEpisodesForSpecificSeries(Authentication authentication, int seriesId) {

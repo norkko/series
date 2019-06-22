@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping()
@@ -20,18 +22,18 @@ public class AccountController {
     @RequestMapping(
             value = "/register",
             method = RequestMethod.POST)
-    public void registerAccount(
-            @RequestBody Account account) {
-        accountService.registerAccount(account);
+    public Account registerAccount(
+            @Valid @RequestBody Account account) {
+        return accountService.registerAccount(account);
     }
 
     @RequestMapping(
             value = "/update",
             method = RequestMethod.PUT)
-    public void updateAccount(
-            Authentication authentication) {
-        accountService.updateAccount(authentication);
-
+    public Account updateAccount(
+            Authentication authentication,
+            @RequestBody Account body) {
+        return accountService.updateAccount(authentication, body);
     }
 
     @RequestMapping(

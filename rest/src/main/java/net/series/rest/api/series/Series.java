@@ -5,6 +5,7 @@ import lombok.Data;
 import net.series.rest.api.account.Account;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Data
 @Entity
@@ -14,7 +15,8 @@ public class Series {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int series;
+    @Min(1)
+    private int series; // should be unique, but only for a specific account
 
     @JsonBackReference
     @ManyToOne

@@ -19,8 +19,8 @@ public class ExceptionController {
 
     @ExceptionHandler(value = UsernameAlreadyExistException.class)
     public ResponseEntity<Object> usernameAlreadyExistException(UsernameAlreadyExistException exception) {
-        Exception response = new Exception(exception.getMessage(), 409);
-        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+        Exception response = new Exception(exception.getMessage(), 400);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -8,7 +8,25 @@ import java.util.List;
 
 @Service
 public interface SeriesService {
-    void saveSeries(Authentication authentication, Series body);
+
+    /**
+     *
+     * @param authentication
+     * @param body
+     */
+    Series saveSeries(Authentication authentication, Series body);
+
+    /**
+     *
+     * @param authentication
+     * @param seriesId
+     */
     void removeSeries(Authentication authentication, int seriesId);
+
+    /**
+     *
+     * @param authentication
+     */
     List<Series> getSeries(Authentication authentication);
+
 }
