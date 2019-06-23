@@ -31,7 +31,7 @@ public class AccountRepositoryIntegrationTests {
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Test
-    public void whenFindByIdReturnSavedAccount() {
+    public void whenFindByIdReturnAccountObject() {
         Account account = new Account();
         account.setUsername("user");
         account.setPassword(encoder.encode("password"));
@@ -40,7 +40,22 @@ public class AccountRepositoryIntegrationTests {
         em.flush();
 
         Account found = accountRepository.findById(account.getId());
-        assertEquals(found.getUsername(), account.getUsername());
+        assertEquals(found, account);
+    }
+
+    @Test
+    public void whenFindByUsernameReturnAccountObject() {
+        String username = "user";
+
+        Account account = new Account();
+        account.setUsername(username);
+        account.setPassword(encoder.encode("password"));
+
+        em.persist(account);
+        em.flush();
+
+        Account found = accountRepository.findByUsername(username);
+        assertEquals(found, account);
     }
 
 }
