@@ -18,10 +18,10 @@ public class SeriesController {
     @RequestMapping(
             value = "/series",
             method = RequestMethod.POST)
-    public Series saveSeries(
+    public void saveSeries(
             Authentication authentication,
             @Valid @RequestBody Series body) {
-        return seriesService.saveSeries(authentication, body);
+        seriesService.saveSeries(authentication, body);
     }
 
     @RequestMapping(
