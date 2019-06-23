@@ -2,7 +2,7 @@ package net.series.rest.account.repository;
 
 import net.series.rest.api.account.Account;
 import net.series.rest.api.account.repository.AccountRepository;
-import net.series.rest.api.account.service.AccountServiceImpl;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -13,8 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -56,6 +55,25 @@ public class AccountRepositoryIntegrationTests {
 
         Account found = accountRepository.findByUsername(username);
         assertEquals(found, account);
+    }
+
+    @Test
+    public void whenDeleteByIdConfirmAccountDeleted() {
+        Account account = new Account();
+        account.setUsername("user");
+        account.setPassword(encoder.encode("password"));
+
+        em.persist(account);
+        em.flush();
+
+        // Confirm account is created
+        assertNotNull(accountRepository.findById(account.getId()));
+
+        accountRepository.deleteById(account.getId());
+
+        // Test account is removed
+        assertNull(accountRepository.findById(account.getId()));
+
     }
 
 }
