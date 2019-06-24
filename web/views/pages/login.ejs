@@ -1,8 +1,8 @@
 <%- include ../partials/head %>
 
-<form action="/register" method="post">
+<form action="" method="post">
   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-  <input type="text" id="username" name="username" placeholder="Username" autocomplete="off" required>
-  <input type="password" id="password" name="password" placeholder="Password" required>
+  <input type="text" id="username" value="username" name="username" placeholder="Username" autocomplete="off" required>
+  <input type="password" id="password" value="password" name="password" placeholder="Password" required>
   <button type="submit">Login</button>
 </form>

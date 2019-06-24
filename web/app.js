@@ -32,15 +32,15 @@ app.use(session({
 }));
 
 app.get('/', csrfProtection, (req, res) => {
-	res.render('home.ejs', { title: 'Home', csrfToken: req.csrfToken() });
+	console.log(req.session.auth);
+	res.render('home.ejs', { title: 'Home', csrfToken: req.csrfToken(), auth: req.session.auth });
 });
 
-
 const fetch = require('node-fetch');
+const url = 'http://localhost:8081'; // temp whilst not containerized
 
 app.get('/register', csrfProtection, (req, res) => {
-	console.log(req.session.auth);
-	res.render('register.ejs', { title: 'Register', csrfToken: req.csrfToken() });
+	res.render('register.ejs', { title: 'Register', csrfToken: req.csrfToken(), auth: req.session.auth });
 });
 
 app.post('/register', parseForm, csrfProtection, async (req, res) => {
@@ -49,7 +49,7 @@ app.post('/register', parseForm, csrfProtection, async (req, res) => {
 		'password': req.body.password
 	}
 
-	const request = fetch('http://localhost:8081/register', {
+	const request = fetch(`${url}/register`, {
 		method: 'POST',
 		headers: {
           'Accept': 'application/json',
@@ -59,27 +59,21 @@ app.post('/register', parseForm, csrfProtection, async (req, res) => {
 	});
 
 	const response = await request;
-
-	if (response.status == 200) {
-		console.log('success..');
-	}
-
 	res.redirect('/');
 
 });
 
 app.get('/login', csrfProtection, (req, res) => {
-	console.log(req.session.auth);
-	res.render('login.ejs', { title: 'Login', csrfToken: req.csrfToken() });
+	res.render('login.ejs', { title: 'Login', csrfToken: req.csrfToken(), auth: req.session.auth });
 });
 
-app.post('/', parseForm, csrfProtection, async (req, res) => {
+app.post('/login', parseForm, csrfProtection, async (req, res) => {
 	const json = {
 		'username': req.body.username,
 		'password': req.body.password
 	}
 	
-	const request = fetch('http://localhost:8081/login', {
+	const request = fetch(`${url}/login`, {
 		method: 'POST',
 		headers: {
         'Accept': 'application/json',
@@ -94,6 +88,39 @@ app.post('/', parseForm, csrfProtection, async (req, res) => {
     req.session.auth = response.headers.get('authorization');
 	}
 
+	res.redirect('/');
+});
+
+app.get('/logout', (req, res) => {
+	delete req.session.auth;
+	res.redirect('/');
+});
+
+app.get('/library', csrfProtection, async (req, res) => {
+	try {
+    const request = fetch(`${url}/series`, {
+	  	headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': req.session.auth
+      },
+      method: 'GET'
+    }).then(res => res.json());
+
+    const response = await request;
+    let arr = [];
+    for (let i = 0; i < response.length; i++) {
+    	arr.push(response[i].series);
+    }
+    console.log(arr.join(","));
+
+	  res.render('library.ejs', { title: 'Library', csrfToken: req.csrfToken(), auth: req.session.auth, series: response });
+	} catch (err) {
+		console.log(err);
+	}
+});
+
+app.get('*', (req, res) => {
 	res.redirect('/');
 });
 
