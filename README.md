@@ -17,11 +17,15 @@ cp .env.example .env
 ```
 Package backend:
 ```bash
-mvn -f ./rest package
+mvn -f ./rest -DskipTests package
 ```
 Start with compose:
 ```bash
-docker-compose up
+docker-compose up --build
+```
+Running tests
+```bash
+mvn test
 ```
 
 ## Environment variables

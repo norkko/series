@@ -2,7 +2,6 @@ package net.series.rest.account.repository;
 
 import net.series.rest.api.account.Account;
 import net.series.rest.api.account.repository.AccountRepository;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -73,7 +72,6 @@ public class AccountRepositoryIntegrationTests {
 
         // Test account is removed
         assertNull(accountRepository.findById(account.getId()));
-
     }
 
 }

@@ -90,6 +90,7 @@ public class AccountServiceImpl implements AccountService  {
      */
     @Override
     public Account findByUsername(String username) {
+        // check if username is empty, illegalArgumentException
         return accountRepository.findByUsername(username);
     }
 

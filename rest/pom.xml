@@ -83,6 +83,7 @@
             <version>2.1.5.RELEASE</version>
             <scope>test</scope>
             <exclusions>
+                <!-- Fix error of two GSONObjects on class path -->
                 <exclusion>
                     <groupId>com.vaadin.external.google</groupId>
                     <artifactId>android-json</artifactId>
@@ -95,7 +96,7 @@
             <version>1.4.199</version>
             <scope>test</scope>
         </dependency>
-
+    
     </dependencies>
 
 
