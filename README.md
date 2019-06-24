@@ -38,7 +38,7 @@ MYSQL_USER              # Mysql username
 MYSQL_PASSWORD          # Mysql password
 MYSQL_DATABASE          # Mysql database
 JWT_SECRET              # JWT secret
-APP_SECRET              # Python secret
+APP_SECRET              # Session secret
 ```
 
 ## API
