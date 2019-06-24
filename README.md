@@ -5,8 +5,7 @@ Series is a web-application for tracking progress of series easily.
 - Java
 - Docker
 - MySQL
-- Python
-- Redis
+- Node
 
 ## Running locally
 To run locally Java 8 and Maven has to be installed for packaging.   
@@ -69,10 +68,10 @@ If an endpoint requires the `Authorization` header it will be marked `✓` in th
 ##### [API Wrapper](https://github.com/august-norkko/series/blob/master/rest/src/main/java/net/series/rest/http/controller/HttpController.java) for [themoviedb.org](https://developers.themoviedb.org/3)
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|--------------- | ----------------| 
-| GET | /search?**_query_** | Search series by query |  ✓ |   |
-| GET | /series/**_id_** | Get specific series information   | ✓  | |
-| GET | /series/**_id_**/**_season_** | Get specific series season information | ✓  | |
-| GET | /series/**_id_**/**_season_**/**_episode_**| Get specific series episode information   |  ✓ | |
+| GET | /search?query= | Search series by query |   |   |
+| GET | /series/**_id_** | Get specific series information   |   | |
+| GET | /series/**_id_**/**_season_** | Get specific series season information |   | |
+| GET | /series/**_id_**/**_season_**/**_episode_** | Get specific series episode information   |   | |
 
 
 ## License

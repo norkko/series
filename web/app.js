@@ -98,7 +98,7 @@ app.get('/logout', (req, res) => {
 
 app.get('/library', csrfProtection, async (req, res) => {
 	try {
-    const request = fetch(`${url}/series`, {
+    const seriesIdsRequest = fetch(`${url}/series`, {
 	  	headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -107,21 +107,25 @@ app.get('/library', csrfProtection, async (req, res) => {
       method: 'GET'
     }).then(res => res.json());
 
-    const response = await request;
-    let arr = [];
-    for (let i = 0; i < response.length; i++) {
-    	arr.push(response[i].series);
-    }
-    console.log(arr.join(","));
+    const seriesIdsResponse = await seriesIdsRequest;
+    seriesIdsResponse.forEach(item => {
+      delete item.id;
+    });
 
-	  res.render('library.ejs', { title: 'Library', csrfToken: req.csrfToken(), auth: req.session.auth, series: response });
+    const seriesDataRequest = fetch(`${url}/api/series`, {
+	  	headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(seriesIdsResponse),
+      method: 'POST'
+    }).then(res => res.json());
+
+    const seriesDataResponse = await seriesDataRequest;
+	  res.render('library.ejs', { title: 'Library', csrfToken: req.csrfToken(), auth: req.session.auth, series: seriesDataResponse });
 	} catch (err) {
 		console.log(err);
 	}
-});
-
-app.get('*', (req, res) => {
-	res.redirect('/');
 });
 
 app.listen(port);
