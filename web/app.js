@@ -204,38 +204,59 @@ app.get('/library/:id', auth, csrfProtection, async (req, res) => {
 	let l = series[0].number_of_seasons,
 	 arr = new Array(++l);
 
-  console.log('Check watched');
   for (let i = 1; i < arr.length; i++) {
   	arr[i] = [];
   	for (let j = 0; j < data.length; j++) {
   		if (data[j].season === i) {
-  		  console.log(data[j]);
   		  arr[i].push(data[j].episode)
   		}
-  		
   	}
   }
-
-  console.log(arr); // all watched episodes divided into seasons
 
 	res.render('series.ejs', { title: 'Library', csrfToken: req.csrfToken(), auth: req.session.auth, series: found, watched: arr });
 });
 
-app.post('/library/:id', auth, parseForm, csrfProtection, (req, res) => {
-	let previous = Array.from(previous);
-	previous.reduce((x, y, z, q) => { if (y === ',') previous.splice(z, 1); }, 0);
+app.post('/library/:id', auth, parseForm, csrfProtection, async (req, res) => {
+	console.log(req.body.previous)
+	let previous = req.body.previous.split(',');
+	console.log(previous)
 
 	let update = req.body.episodes;
 	if (update === undefined)	update = [];
 	else if (typeof update === 'string') update = Array.from(update);
-	update = update.filter(item => !previous.includes(item)); 
 
 	let remove = _.differenceWith(previous, update, _.isEqual);
+	update = update.filter(item => !previous.includes(item)); 
 	
 	console.log('Remove ', remove); // remove these
 	console.log('Add ', update); // add these
 
-	res.status(204).send();
+	// Adds episodes to db.
+	if (update && update.length > 0) {
+	    for (let i = 0; i < update.length; i++) {
+	      let body = {
+	        'series': req.body.id,
+	        'season': req.body.season,
+	        'episode': update[i]
+	      };
+
+	      try {
+	        const request = await fetch(`${url}/episodes`, {
+	            headers: {
+	              'Accept': 'application/json',
+	              'Content-Type': 'application/json',
+	              'Authorization': req.session.auth
+	            },
+	            body: JSON.stringify(body),
+	            method: 'POST'
+	          });
+	      }	catch (err) {
+	        console.log(err);
+	      }
+	    } 
+	}
+
+	res.redirect(req.originalUrl);
 });
 
 app.post('/library/series/:id', auth, parseForm, csrfProtection, async (req, res) => {
