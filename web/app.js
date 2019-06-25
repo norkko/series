@@ -222,20 +222,18 @@ app.get('/library/:id', auth, csrfProtection, async (req, res) => {
 });
 
 app.post('/library/:id', auth, parseForm, csrfProtection, (req, res) => {
-
-	let previous = Array.from(req.body.previous);
-	let update = req.body.episodes !== undefined ? req.body.episodes : [];
+	let previous = Array.from(previous);
 	previous.reduce((x, y, z, q) => { if (y === ',') previous.splice(z, 1); }, 0);
 
-	let remove = _.differenceWith(previous, update, _.isEqual);
+	let update = req.body.episodes;
+	if (update === undefined)	update = [];
+	else if (typeof update === 'string') update = Array.from(update);
+	update = update.filter(item => !previous.includes(item)); 
 
-	if (update.length <= 1 && previous.length === 0) {
-	  console.log('weird case, update all of update array');
-	} else {
-	  update = update.filter(item => !previous.includes(item)); 
-	  console.log(update); // arr of values should be added.
-	  console.log(remove); // arr of values should be removed.
-	}
+	let remove = _.differenceWith(previous, update, _.isEqual);
+	
+	console.log('Remove ', remove); // remove these
+	console.log('Add ', update); // add these
 
 	res.status(204).send();
 });
@@ -255,11 +253,12 @@ app.post('/library/series/:id', auth, parseForm, csrfProtection, async (req, res
     });
 
     console.log(data.status);  
-
+	
+	  res.status(204).send();
   } catch (err) {
 		console.log(err);
 	}
-	res.status(204).send();
+
 });
 
 /* --------- ------- ---------- */
