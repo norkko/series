@@ -1,7 +1,35 @@
 version: '3'
 services:
-
-  web:
-    build: ./web
+  rest:
+    build: ./rest
     ports:
-      - 8080:8080
+      - 8081:8081
+    environment:
+      API_KEY: ${API_KEY}
+      API_URL: ${API_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - 3306:3306
+
+#  web:
+#    build: ./web
+#    ports:
+#      - 8080:8080
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379

@@ -9,11 +9,12 @@ const csrf = require('csurf');
 const path = require('path');
 const port = 8080;
 
-const csrfProtection = csrf({ cookie: true })
-const parseForm = bodyParser.urlencoded({ extended: false })
-
 const app = express();
 
+const csrfProtection = csrf({ cookie: true });
+const parseForm = bodyParser.urlencoded({ extended: false });
+
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views/pages'));
 app.set('view engine', 'ejs');
 
@@ -178,6 +179,7 @@ app.get('/library', auth, csrfProtection, async (req, res) => {
 		    body: JSON.stringify(seriesIdsResponse),
 		    method: 'POST'
 		  }).then(res => res.json());
+
 		  seriesDataResponse = await seriesDataRequest;
 		  req.session.series = seriesDataResponse;
 		}
@@ -189,7 +191,7 @@ app.get('/library', auth, csrfProtection, async (req, res) => {
 });
 
 app.get('/library/:id', auth, csrfProtection, async (req, res) => {
-  const data = await fetch(`${url}/episodes/37680`, // series id hardcoded
+  const data = await fetch(`${url}/episodes/${req.params.id}`, // series id hardcoded
   	{ headers: { 'Authorization': req.session.auth }})
     .then(res => res.json());
 
@@ -202,13 +204,13 @@ app.get('/library/:id', auth, csrfProtection, async (req, res) => {
 	}
 
 	let l = series[0].number_of_seasons,
-	 arr = new Array(++l);
+	  arr = new Array(++l);
 
   for (let i = 1; i < arr.length; i++) {
   	arr[i] = [];
   	for (let j = 0; j < data.length; j++) {
   		if (data[j].season === i) {
-  		  arr[i].push(data[j].episode)
+  		  arr[i].push(data[j].episode);
   		}
   	}
   }
@@ -261,7 +263,7 @@ app.post('/library/:id', auth, parseForm, csrfProtection, async (req, res) => {
 
 app.post('/library/series/:id', auth, parseForm, csrfProtection, async (req, res) => {
   try {
-    const data = await fetch(`${url}/series`, // series id hardcoded
+    const data = await fetch(`${url}/series`,
     	{ headers: {
 	  	  'Accept': 'application/json',
 	  	  'Content-Type': 'application/json',
@@ -269,7 +271,7 @@ app.post('/library/series/:id', auth, parseForm, csrfProtection, async (req, res
     	},
     	method: 'PUT',
     	body: JSON.stringify({
-    		'series': 37680
+    		'series': req.params.id
     	})
     });
 

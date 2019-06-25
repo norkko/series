@@ -31,13 +31,12 @@ mvn test
 When creating the `.env` file, only `API_KEY` and `JWT_SECRET` has to be changed. [Getting an API key](https://www.themoviedb.org/faq/api?language=en-US)
 
 ```bash
-API_KEY                 # themoviedb API key, has to be changed
+API_KEY                 # themoviedb API key
 MYSQL_ROOT_PASSWORD     # Mysql root password
 MYSQL_USER              # Mysql username
 MYSQL_PASSWORD          # Mysql password
 MYSQL_DATABASE          # Mysql database
 JWT_SECRET              # JWT secret
-APP_SECRET              # Session secret
 ```
 
 ## API
@@ -53,7 +52,7 @@ If an endpoint requires the `Authorization` header it will be marked `✓` in th
 ##### [Series](https://github.com/august-norkko/series/blob/master/rest/src/main/java/net/series/rest/api/series/controller/SeriesController.java)
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|------------------|-------------- |
-| POST   | /series   | Add series to library  |   ✓ |  ✓ |  
+| PUT   | /series   | Add series to library  |   ✓ |  ✓ |  
 | DELETE   | /series/**_id_**   | Remove series from library  |   ✓ |  ✓ |  
 | GET    | /series   | Get library of series  |   ✓ |  ✓ |  
 
@@ -70,9 +69,9 @@ If an endpoint requires the `Authorization` header it will be marked `✓` in th
 |--------|-----------|---------------|--------------- | ----------------| 
 | GET | /search?query= | Search series by query |   |   |
 | GET | /series/**_id_** | Get specific series information   |   | |
+| POST | /series | Get information of several series   |   | |
 | GET | /series/**_id_**/**_season_** | Get specific series season information |   | |
 | GET | /series/**_id_**/**_season_**/**_episode_** | Get specific series episode information   |   | |
-
 
 ## License
 MIT

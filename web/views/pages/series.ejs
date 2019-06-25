@@ -1,28 +1,33 @@
 <%- include ../partials/head %>
 
+<div class="container margin-top">
 <% if (series) { %>
-  <h3><%= series.name %></h3>
-  <a><%= series.overview %></a>
-  <h4>Amount of seasons: <%= series.number_of_seasons %></h4>
-
+	<div class="overview">
+	  <div class="overview-child">
+      <h1><%= series.name.toUpperCase() %></h1>
+      <a class="medium"><%= series.overview %></a>
+      <h3><%= series.name %> has <%= series.number_of_seasons %> seasons.</h3>
+    </div>
+  </div>
   <% for (let i = 1; i <= series.number_of_seasons; i++) { %>
   	<div class="season-section">
-  		<a>Watched episodes of current season: <%= watched[i].length %></a><br/>
-      <a>Season <%= series.seasons[i].season_number %> with </a>
-      <a><%= series.seasons[i].episode_count %> episodes</a>
-
+      <p class="large centered"><%= series.seasons[i].season_number %></p>
 			<form action="/library/37680" method="post">
 				<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 				<input type="hidden" name="id" value="<%= series.id %>">
 				<input type="hidden" name="season" value="<%= i %>">
 				<input type="hidden" name="previous" value="<%= watched[i] %>">
       	<% for (let j = 1; j <= series.seasons[i].episode_count; j++) { %>
-      	  <a>Episode <%= j %></a>
       	  <% let checked = watched[i].indexOf(j) > -1 ? "checked" : "" %>
-      	  <input type="checkbox" name="episodes" value="<%= j %>" <%= checked %> ><br>
-      	<% } %>
-				<button type="submit">Save</button>
+      	  <input type="checkbox" name="episodes" value="<%= j %>" <%= checked %> >
+      	  <a><%= j %></a><br/>
+ 	        <% if (j % 5 === 0) { %>
+      	    <br/>
+      	  <% } %>
+      	<% } %><br/>
+      	<button type="submit margin-top">Save</button>
 			</form>
     </div>
   <% } %>
 <% } %>
+</div>
