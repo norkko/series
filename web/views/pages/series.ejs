@@ -15,12 +15,12 @@
 				<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 				<input type="hidden" name="id" value="<%= series.id %>">
 				<input type="hidden" name="season" value="<%= i %>">
+				<input type="hidden" name="previous" value="<%= watched[i] %>">
       	<% for (let j = 1; j <= series.seasons[i].episode_count; j++) { %>
       	  <a>Episode <%= j %></a>
       	  <% let checked = watched[i].indexOf(j) > -1 ? "checked" : "" %>
       	  <input type="checkbox" name="episodes" value="<%= j %>" <%= checked %> ><br>
       	<% } %>
-     
 				<button type="submit">Save</button>
 			</form>
     </div>

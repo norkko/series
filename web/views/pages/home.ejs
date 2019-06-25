@@ -5,6 +5,10 @@
 
 <% if (auth) { %>
   <!-- is authenticated -->
-  <h3>authenticated.</h3> 
-<% } %>
 
+  <h4>Add series to library</h4>
+  <form action="/library/series/37680" method="post">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button type="submit">Add series</button>
+  </form>
+<% } %>

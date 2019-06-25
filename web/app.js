@@ -52,6 +52,8 @@ client.on('error', function (err) {
 });
 
 
+const _ = require('lodash');
+
 /* --------- ------- ---------- */
 
 
@@ -220,7 +222,43 @@ app.get('/library/:id', auth, csrfProtection, async (req, res) => {
 });
 
 app.post('/library/:id', auth, parseForm, csrfProtection, (req, res) => {
-	console.log(req)
+
+	let previous = Array.from(req.body.previous);
+	let update = req.body.episodes !== undefined ? req.body.episodes : [];
+	previous.reduce((x, y, z, q) => { if (y === ',') previous.splice(z, 1); }, 0);
+
+	let remove = _.differenceWith(previous, update, _.isEqual);
+
+	if (update.length <= 1 && previous.length === 0) {
+	  console.log('weird case, update all of update array');
+	} else {
+	  update = update.filter(item => !previous.includes(item)); 
+	  console.log(update); // arr of values should be added.
+	  console.log(remove); // arr of values should be removed.
+	}
+
+	res.status(204).send();
+});
+
+app.post('/library/series/:id', auth, parseForm, csrfProtection, async (req, res) => {
+  try {
+    const data = await fetch(`${url}/series`, // series id hardcoded
+    	{ headers: {
+	  	  'Accept': 'application/json',
+	  	  'Content-Type': 'application/json',
+    		'Authorization': req.session.auth
+    	},
+    	method: 'PUT',
+    	body: JSON.stringify({
+    		'series': 37680
+    	})
+    });
+
+    console.log(data.status);  
+
+  } catch (err) {
+		console.log(err);
+	}
 	res.status(204).send();
 });
 
