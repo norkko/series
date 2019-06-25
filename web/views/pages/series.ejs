@@ -6,18 +6,23 @@
   <h4>Amount of seasons: <%= series.number_of_seasons %></h4>
 
   <% for (let i = 1; i <= series.number_of_seasons; i++) { %>
-
   	<div class="season-section">
+  		<a>Watched episodes of current season: <%= watched[i].length %></a><br/>
       <a>Season <%= series.seasons[i].season_number %> with </a>
       <a><%= series.seasons[i].episode_count %> episodes</a>
 
-      <div class="episode-section">
-        <% for (let j = 1; j <= series.seasons[i].episode_count; j++) { %>
-          <a>Episode <%= j %></a>
-          <input type="checkbox"><br/>
-        <% } %>
-        <input type="submit" value="Save"><br/>
-      </div>
+			<form action="/library/37680" method="post">
+				<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+				<input type="hidden" name="id" value="<%= series.id %>">
+				<input type="hidden" name="season" value="<%= i %>">
+      	<% for (let j = 1; j <= series.seasons[i].episode_count; j++) { %>
+      	  <a>Episode <%= j %></a>
+      	  <% let checked = watched[i].indexOf(j) > -1 ? "checked" : "" %>
+      	  <input type="checkbox" name="episodes" value="<%= j %>" <%= checked %> ><br>
+      	<% } %>
+     
+				<button type="submit">Save</button>
+			</form>
     </div>
   <% } %>
 <% } %>

@@ -186,8 +186,11 @@ app.get('/library', auth, csrfProtection, async (req, res) => {
 	}
 });
 
-app.get('/library/:id', auth, csrfProtection, (req, res) => {
-	console.log(req.params.id);
+app.get('/library/:id', auth, csrfProtection, async (req, res) => {
+  const data = await fetch(`${url}/episodes/37680`, // series id hardcoded
+  	{ headers: { 'Authorization': req.session.auth }})
+    .then(res => res.json());
+
 	let series = req.session.series, found;
 	for (let i = 0; i < series.length; i++) {
 		if (series[i].id == req.params.id) {
@@ -196,7 +199,29 @@ app.get('/library/:id', auth, csrfProtection, (req, res) => {
 		}
 	}
 
-	res.render('series.ejs', { title: 'Library', csrfToken: req.csrfToken(), auth: req.session.auth, series: found });
+	let l = series[0].number_of_seasons,
+	 arr = new Array(++l);
+
+  console.log('Check watched');
+  for (let i = 1; i < arr.length; i++) {
+  	arr[i] = [];
+  	for (let j = 0; j < data.length; j++) {
+  		if (data[j].season === i) {
+  		  console.log(data[j]);
+  		  arr[i].push(data[j].episode)
+  		}
+  		
+  	}
+  }
+
+  console.log(arr); // all watched episodes divided into seasons
+
+	res.render('series.ejs', { title: 'Library', csrfToken: req.csrfToken(), auth: req.session.auth, series: found, watched: arr });
+});
+
+app.post('/library/:id', auth, parseForm, csrfProtection, (req, res) => {
+	console.log(req)
+	res.status(204).send();
 });
 
 /* --------- ------- ---------- */
