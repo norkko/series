@@ -19,6 +19,7 @@
     "express-session": "^1.16.2",
     "helmet": "^3.18.0",
     "node-fetch": "^2.6.0",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "redis": "^2.8.0"
   }
 }

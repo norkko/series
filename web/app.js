@@ -31,13 +31,63 @@ app.use(session({
   }
 }));
 
-app.get('/', csrfProtection, (req, res) => {
-	console.log(req.session.auth);
-	res.render('home.ejs', { title: 'Home', csrfToken: req.csrfToken(), auth: req.session.auth });
+/* --------- REDIS ---------- */
+
+// use redis later
+
+const redis = require('redis');
+const client = redis.createClient();
+const { promisify } = require('util');
+
+const getAsync = promisify(client.get).bind(client);
+const setAsync = promisify(client.set).bind(client);
+const keysAsync = promisify(client.keys).bind(client);
+
+client.on('connect', function() {
+	console.log('Redis client connected');
 });
 
+client.on('error', function (err) {
+	console.log('Something went wrong ' + err);
+});
+
+
+/* --------- ------- ---------- */
+
+
+/* --------- GENERAL ---------- */
+
+
+// is auth
+const auth = (req, res, next) => {
+  if (req.session.auth) {
+    return next();
+  }
+
+  res.sendFile(path.join(__dirname, 'public', '404.html'));
+}
+
+app.get('/', csrfProtection, async (req, res) => {
+	try {
+		console.log(req.session.auth);
+		await setAsync('key', 'data');
+		console.log(await getAsync('key'));
+		res.render('home.ejs', { title: 'Home', csrfToken: req.csrfToken(), auth: req.session.auth });
+	} catch (err) {
+		console.log(err);
+	}
+});
+
+
+/* --------- ---- ---------- */
+
+/* --------- AUTH ---------- */
+
+
 const fetch = require('node-fetch');
-const url = 'http://localhost:8081'; // temp whilst not containerized
+
+const url = 'http://localhost:8081'; // not containerized
+
 
 app.get('/register', csrfProtection, (req, res) => {
 	res.render('register.ejs', { title: 'Register', csrfToken: req.csrfToken(), auth: req.session.auth });
@@ -92,40 +142,65 @@ app.post('/login', parseForm, csrfProtection, async (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-	delete req.session.auth;
+	if (req.session.auth) delete req.session.auth;
 	res.redirect('/');
 });
 
-app.get('/library', csrfProtection, async (req, res) => {
-	try {
-    const seriesIdsRequest = fetch(`${url}/series`, {
-	  	headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': req.session.auth
-      },
-      method: 'GET'
-    }).then(res => res.json());
+/* --------- ------- ---------- */
 
-    const seriesIdsResponse = await seriesIdsRequest;
-    seriesIdsResponse.forEach(item => {
-      delete item.id;
-    });
+/* --------- LIBRARY ---------- */
 
-    const seriesDataRequest = fetch(`${url}/api/series`, {
-	  	headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(seriesIdsResponse),
-      method: 'POST'
-    }).then(res => res.json());
+app.get('/library', auth, csrfProtection, async (req, res) => {
+  try {
+		const seriesIdsRequest = fetch(`${url}/series`, {
+			headers: {
+		    'Accept': 'application/json',
+		    'Content-Type': 'application/json',
+		    'Authorization': req.session.auth
+		  },
+		  method: 'GET'
+		}).then(res => res.json());
 
-    const seriesDataResponse = await seriesDataRequest;
+		const seriesIdsResponse = await seriesIdsRequest;
+		seriesIdsResponse.forEach(item => {
+		  delete item.id;
+		});
+
+		let seriesDataResponse;
+		if (seriesIdsResponse.length > 0) {
+			const seriesDataRequest = fetch(`${url}/api/series`, {
+			  headers: {
+		      'Accept': 'application/json',
+		      'Content-Type': 'application/json'
+		    },
+		    body: JSON.stringify(seriesIdsResponse),
+		    method: 'POST'
+		  }).then(res => res.json());
+		  seriesDataResponse = await seriesDataRequest;
+		  req.session.series = seriesDataResponse;
+		}
+	  
 	  res.render('library.ejs', { title: 'Library', csrfToken: req.csrfToken(), auth: req.session.auth, series: seriesDataResponse });
 	} catch (err) {
 		console.log(err);
 	}
 });
 
-app.listen(port);
+app.get('/library/:id', auth, csrfProtection, (req, res) => {
+	console.log(req.params.id);
+	let series = req.session.series, found;
+	for (let i = 0; i < series.length; i++) {
+		if (series[i].id == req.params.id) {
+			found = series[i];
+			break;
+		}
+	}
+
+	res.render('series.ejs', { title: 'Library', csrfToken: req.csrfToken(), auth: req.session.auth, series: found });
+});
+
+/* --------- ------- ---------- */
+
+app.listen(port, () => {
+	console.log('Running on localhost:8080');
+});
