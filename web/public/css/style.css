@@ -1,9 +1,19 @@
 html, input, button, body { font-family: 'Raleway', sans-serif; }
-body { text-align: center; margin: 0 auto; }
-p { margin: 0; padding: 0; }
+html { min-height: 100%; }
+body {
+	color: #fff;
+	text-align: center; margin: 0 auto;
+	background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),
+	url(https://images.unsplash.com/photo-1475906496975-98b3f1519761?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80);
+	background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: cover;
+    -webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+  filter: grayscale(100%);
+}
 
-.container { max-width: 80%; margin: 0 auto; }
-.overview { max-width: 80%; margin: 0 auto; }
+.container { max-width: 70%; margin: 0 auto; }
+.overview { max-width: 100%; margin: 0 auto; }
 
 .small { font-size: 14px; }
 .medium { font-size: 18px; }
@@ -14,14 +24,28 @@ input[type=checkbox] { background-color: #DDD; border-radius: 2px; appearance: n
 input[type=checkbox]:focus { outline:1px solid rgba(0, 0, 0, 0.2); }
 input[type=checkbox]:checked { background-color:#409fd6; background:#409fd6 url("data:image/gif;base64,R0lGODlhCwAKAIABAP////3cnSH5BAEKAAEALAAAAAALAAoAAAIUjH+AC73WHIsw0UCjglraO20PNhYAOw==") 3px 3px no-repeat; }
 
-button { width: 50px; height: 25px; border-radius: 3px; border-style: none; }
+button { border-radius: 3px; border-style: none; }
 button:hover { opacity: 0.7; cursor: pointer; }
 
 .container { display: flex; }
 .season-section > div { flex: 1; }
 .season-section { padding: 10 px; width: 160px; padding: 10px; text-align: left;}
+
 .overview { width: 100%; }
 .overview-child { width: 75%; margin: 0 auto; }
 
 .centered { margin-left: 7.5px; }
 .margin-top { margin-top: 100px; }
+
+.series-section > div { flex: 1; }
+.series-section { padding: 5 px; width: 100px; }
+
+.navbar-custom { background-color:; }
+.navbar-custom a { font-size: 14px; }
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text { color: #000; }
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link { color: #ffffff; }
+.navbar-custom .navbar-nav .nav-link { color: rgba(255,255,255,.5); }
+
+hr { margin: 0; padding: 0; }

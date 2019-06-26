@@ -4,17 +4,55 @@
   	<meta charset="UTF-8">
     <title><%= title %></title>
     <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../../css/style.css">
   </head>
 <body>
-<br/>
-<a href="/">Home</a>
-<% if (!auth) { %>
-  <a href="/register">Register</a>
-  <a href="/login">Login</a>
-<% } else { %>
-  <a href="/library">Library</a>  
-  <a href="/logout">Logout</a>  
-<% } %>
-<a target="_blank" href="https://github.com/august-norkko/series">Github</a><br/><br/>
 
+<nav class="navbar navbar-expand-lg navbar-custom">
+  <div class="mx-auto" style="width: 25%;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"   aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="nav navbar-nav" >
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home<span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="https://github.com/august-norkko/series">Github</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav ml-auto" >
+        <% if (auth) { %>
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Menu
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="/profile">Signed in as:<br/><b>august</b></a>
+            <hr>
+            <a class="dropdown-item" href="/browse">Browse</a>
+            <a class="dropdown-item" href="/library">My library</a>
+            <a class="dropdown-item" href="/settings">Settings</a>
+            <hr>
+            <a class="dropdown-item" href="/help">Help</a>
+            <a class="dropdown-item" href="/logout">Logout</a>
+          </div>
+        </li>
+        <% } else { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Sign up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Sign in</a>
+        </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br/><br/>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

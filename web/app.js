@@ -219,10 +219,7 @@ app.get('/library/:id', auth, csrfProtection, async (req, res) => {
 });
 
 app.post('/library/:id', auth, parseForm, csrfProtection, async (req, res) => {
-	console.log(req.body.previous)
 	let previous = req.body.previous.split(',');
-	console.log(previous)
-
 	let update = req.body.episodes;
 	if (update === undefined)	update = [];
 	else if (typeof update === 'string') update = Array.from(update);
@@ -230,9 +227,6 @@ app.post('/library/:id', auth, parseForm, csrfProtection, async (req, res) => {
 	let remove = _.differenceWith(previous, update, _.isEqual);
 	update = update.filter(item => !previous.includes(item)); 
 	
-	console.log('Remove ', remove); // remove these
-	console.log('Add ', update); // add these
-
 	// Adds episodes to db.
 	if (update && update.length > 0) {
 	    for (let i = 0; i < update.length; i++) {
@@ -258,7 +252,7 @@ app.post('/library/:id', auth, parseForm, csrfProtection, async (req, res) => {
 	    } 
 	}
 
-	res.redirect(req.originalUrl);
+  res.redirect(req.originalUrl);
 });
 
 app.post('/library/series/:id', auth, parseForm, csrfProtection, async (req, res) => {

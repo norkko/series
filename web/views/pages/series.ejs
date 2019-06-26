@@ -12,7 +12,7 @@
   <% for (let i = 1; i <= series.number_of_seasons; i++) { %>
   	<div class="season-section">
       <p class="large centered"><%= series.seasons[i].season_number %></p>
-			<form action="/library/37680" method="post">
+			<form action="/library/<%= series.id %>" method="post">
 				<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 				<input type="hidden" name="id" value="<%= series.id %>">
 				<input type="hidden" name="season" value="<%= i %>">

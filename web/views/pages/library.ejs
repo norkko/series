@@ -1,8 +1,12 @@
 <%- include ../partials/head %>
 
-<a>Series</a><br/>
-<% if (series) { %>
-  <% series.forEach(item => { %>
-    <a href="/library/<%= item.id %>"><%= item.name %></a><br/>
-  <% }); %>
-<% } %>
+<div>
+  <% if (series) { %>
+    <% series.forEach(item => { %>
+      <div>
+        <a href="/library/<%= item.id %>"><%= item.name %></a>
+      </div>
+    <% }); %>
+  <% } %>
+</div>
+
