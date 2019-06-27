@@ -20,17 +20,17 @@
         </li>
       </ul>
       <ul class="nav navbar-nav ml-auto" >
-        <% if (auth) { %>
+        <% if (user) { %>
           <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Menu
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="/profile">Signed in as:<br/><b>august</b></a>
+            <a class="dropdown-item" href="/profile">Signed in as:<br/><b><%= user.username %></b></a>
             <hr>
             <a class="dropdown-item" href="/browse">Browse</a>
             <a class="dropdown-item" href="/library">My library</a>
-            <a class="dropdown-item" href="/settings">Settings</a>
+            <a class="dropdown-item" href="/profile/settings">Settings</a>
             <hr>
             <a class="dropdown-item" href="/help">Help</a>
             <a class="dropdown-item" href="/logout">Sign out</a>

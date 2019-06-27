@@ -27,7 +27,7 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(session({
   key: 'cookie',
-  secret: 'secret',
+  secret: 'secret', // process.env.COOKIE_SECRET
   resave: false,
   saveUninitialized: false,
   cookie: {

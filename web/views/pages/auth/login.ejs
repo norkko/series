@@ -1,8 +1,8 @@
-<%- include ../partials/meta %>
+<%- include ../../partials/meta %>
 <style>a{font-size:14px;}</style>
 <div class="container mt-5">
   <a href="/" class="text-blue">home</a>
-  <h1 class="text-dark mb-5 pt-5">Create account</h1>
+  <h1 class="text-dark mb-5 pt-5">Sign in</h1>
   <div class="content custom-border bg-light">
     <form action="" method="post">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -14,17 +14,13 @@
         <label for="password" class="text-dark float-left">Password</label>
         <input type="password" id="password" class="form-control" value="password" name="password" required>
       </div>
-      <div class="form-group">
-        <label for="passwordconfirm" class="text-dark float-left">Confirm password</label>
-        <input type="password" id="passwordconfirm" class="form-control" value="password" name="passwordconfirm" required>
-      </div>
-      <button type="submit" class="btn btn-success w-100">Create account</button>
+      <button type="submit" class="btn btn-success w-100">Sign In</button>
     </form>
   </div>
 </div>
 
 <div class="container mt-1">
   <div class="content custom-border bg-light">
-    <a class="text-dark">Already registered? <a href="/login">Sign in.</a></a>
+    <a class="text-dark">Not registered? <a href="/register">Sign up.</a></a>
   </div>
 </div>

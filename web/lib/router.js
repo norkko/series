@@ -75,6 +75,18 @@ router.route('/login')
 /**
  *  
  */
+router.route('/profile')
+  .get(csrfProtection, auth.getProfile)
+
+/**
+ *  
+ */
+router.route('/profile/settings')
+  .get(csrfProtection, auth.getSettings)
+
+/**
+ *  
+ */
 router.route('/logout')
   .get(auth.getLogout)
 

@@ -37,10 +37,10 @@ exports.getLibrary = async (req, res, next) => {
       req.session.series = seriesDataResponse;
     }
 
-    res.render('library.ejs', {
+    res.render('library/library.ejs', {
       title: 'Library',
       csrfToken: req.csrfToken(),
-      auth: req.session.auth,
+      user: req.session.user,
       series: seriesDataResponse
     });
   } catch (err) {
@@ -80,15 +80,14 @@ exports.getLibraryId = async (req, res, next) => {
     }
   }
 
-  res.render('series.ejs', {
+  res.render('library/series.ejs', {
     title: 'Library',
     csrfToken: req.csrfToken(),
-    auth: req.session.auth,
+    user: req.session.user,
     series: found,
     watched: arr
   });
 }
-
 
 exports.postLibraryId = async (req, res, next) => {
   let previous = req.body.previous.split(',');
@@ -99,7 +98,7 @@ exports.postLibraryId = async (req, res, next) => {
   let remove = _.differenceWith(previous, update, _.isEqual);
   update = update.filter(item => !previous.includes(item));
 
-  console.log(update)
+
   // Adds episodes
   if (update && update.length > 0) {
     for (let i = 0; i < update.length; i++) {
@@ -109,6 +108,7 @@ exports.postLibraryId = async (req, res, next) => {
         'episode': update[i]
       };
 
+      console.log(body);
       try {
         const request = await fetch(`${url}/episodes`, {
           headers: {

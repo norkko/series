@@ -1,0 +1,25 @@
+<%- include ../../partials/head %>
+
+<style>body { color: #000; }</style>
+
+<div class="container margin-top">
+<% if (series) { %>
+	<div class="overview">
+	  <div class="overview-child">
+      <h1><%= series.name.toUpperCase() %></h1>
+      <h5><%= series.number_of_seasons %> seasons</h5>
+      <a class="medium"><%= series.overview %></a>
+      
+    </div>
+  </div>
+  <% for (let i = 0; i < series.number_of_seasons; i++) { %>
+  	<div class="season-section">
+      Season <%= series.seasons[i].season_number %>:
+      <% for (let j = 0; j < series.seasons[i].episode_count; j++) { %>
+        <a><%= j %></a>
+      <% } %>
+
+    </div>
+  <% } %>
+<% } %>
+</div>

@@ -17,9 +17,9 @@
   <a href="/browse">Back to browse</a>
   <h1 class="text-dark"><%= results.name %></h1>
   <div class="container w-50 mx-auto">
-    <h5 class="text-dark"><%= results.number_of_seasons %> seasons</h5><br/>
+    <h5 class="text-dark"><%= results.number_of_seasons %> seasons</h5>
     <a><%= results.overview %></a><br/>
-    <% if (auth) { %>
+    <% if (user) { %>
       <form method="POST" action="">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button>Add to my library</button>

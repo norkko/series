@@ -7,18 +7,19 @@ const url = 'http://localhost:8081';
 const _ = require('lodash');
 
 exports.home = async (req, res, next) => {
-  res.render('home.ejs', {
+  console.log(req.session.user)
+  res.render('home/home.ejs', {
     title: 'Home',
     csrfToken: req.csrfToken(),
-    auth: req.session.auth
+    user: req.session.user
   });
 }
 
 exports.help = async (req, res, next) => {
-  res.render('help.ejs', {
+  res.render('home/help.ejs', {
     title: 'Help',
     csrfToken: req.csrfToken(),
-    auth: req.session.auth
+    user: req.session.user
   });
 }
 
@@ -35,10 +36,10 @@ exports.getBrowse = async (req, res, next) => {
         method: 'GET'
       }).then(res => res.json());
 
-      res.render('search.ejs', {
+      res.render('library/search.ejs', {
         title: 'Browse',
         csrfToken: req.csrfToken(),
-        auth: req.session.auth,
+        user: req.session.user,
         query: req.query.series,
         results: search.results
       });
@@ -52,10 +53,10 @@ exports.getBrowse = async (req, res, next) => {
         method: 'GET'
       }).then(res => res.json());
 
-      res.render('browse.ejs', {
+      res.render('library/browse.ejs', {
         title: 'Browse',
         csrfToken: req.csrfToken(),
-        auth: req.session.auth,
+        user: req.session.user,
         popular: popular.results
       });
     }
@@ -74,10 +75,10 @@ exports.getBrowseId = async (req, res, next) => {
       method: 'GET'
     }).then(res => res.json());
 
-    res.render('browse.ejs', {
+    res.render('library/browse.ejs', {
       title: 'Browse',
       csrfToken: req.csrfToken(),
-      auth: req.session.auth,
+      user: req.session.user,
       popular: null,
       results: results
     });
@@ -100,9 +101,7 @@ exports.postBrowseId = async (req, res, next) => {
       })
     });
 
-    console.log(data.status);  
-  
-    res.redirect('browse');
+    res.redirect(req.originalUrl);
   } catch (err) {
     console.log(err);
   }

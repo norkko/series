@@ -5,7 +5,7 @@
 <div>
   <% if (series) { %>
     <% series.forEach(item => { %>
-        <a href="/library/<%= item.id %>"><%= item.name %></a>
+        <a class="d-sm-block" href="/library/<%= item.id %>"><%= item.name %></a>
     <% }); %>
   <% } %>
 </div>
