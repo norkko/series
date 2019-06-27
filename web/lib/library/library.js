@@ -2,10 +2,8 @@
 /**
  *
  */
-
 const fetch = require('node-fetch');
 const url = 'http://localhost:8081';
-
 const _ = require('lodash');
 
 exports.getLibrary = async (req, res, next) => {

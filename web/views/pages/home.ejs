@@ -17,9 +17,4 @@
 <% } else { %>
   <!-- is authenticated -->
 
-  <h4>Add series to library</h4>
-  <form action="/library/series/2316" method="post">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    Press to add series to library<button type="submit">Add</button>
-  </form>
 <% } %>

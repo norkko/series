@@ -39,6 +39,25 @@ router.route('/')
 /**
  *  
  */
+router.route('/help')
+  .get(csrfProtection, home.help)
+
+/**
+ *  
+ */
+router.route('/browse')
+  .get(csrfProtection, home.getBrowse)
+
+/**
+ *  
+ */
+router.route('/browse/:id')
+  .get(csrfProtection, home.getBrowseId)
+  .post(parseForm, csrfProtection, home.postBrowseId)
+
+/**
+ *  
+ */
 router.route('/register')
   .get(csrfProtection, auth.getRegister)
   .post(parseForm, csrfProtection, auth.postRegister)
