@@ -1,5 +1,7 @@
 <%- include ../partials/head %>
 
+<style>body { color: #000; }</style>
+
 <div class="container margin-top">
 <% if (series) { %>
 	<div class="overview">
@@ -9,7 +11,7 @@
       <h3><%= series.name %> has <%= series.number_of_seasons %> seasons.</h3>
     </div>
   </div>
-  <% for (let i = 1; i <= series.number_of_seasons; i++) { %>
+  <% for (let i = 0; i < series.number_of_seasons; i++) { %>
   	<div class="season-section">
       <p class="large centered"><%= series.seasons[i].season_number %></p>
 			<form action="/library/<%= series.id %>" method="post">
@@ -17,13 +19,10 @@
 				<input type="hidden" name="id" value="<%= series.id %>">
 				<input type="hidden" name="season" value="<%= i %>">
 				<input type="hidden" name="previous" value="<%= watched[i] %>">
-      	<% for (let j = 1; j <= series.seasons[i].episode_count; j++) { %>
+      	<% for (let j = 0; j < series.seasons[i].episode_count; j++) { %>
       	  <% let checked = watched[i].indexOf(j) > -1 ? "checked" : "" %>
       	  <input type="checkbox" name="episodes" value="<%= j %>" <%= checked %> >
       	  <a><%= j %></a><br/>
- 	        <% if (j % 5 === 0) { %>
-      	    <br/>
-      	  <% } %>
       	<% } %><br/>
       	<button type="submit margin-top">Save</button>
 			</form>

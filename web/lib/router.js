@@ -22,6 +22,9 @@ const home = require('./home/home');
 const auth = require('./auth/auth');
 const library = require('./library/library');
 
+/**
+ *  
+ */
 const authenticated = (req, res, next) => {
   if (req.session.auth) {
     return next();
@@ -81,6 +84,9 @@ router.route('/logout')
 router.route('/library')
   .get(authenticated, csrfProtection, library.getLibrary)
 
+/**
+ *  
+ */
 router.route('/library/:id')
   .get(authenticated, csrfProtection, library.getLibraryId)
   .post(authenticated, parseForm, csrfProtection, library.postLibraryId)

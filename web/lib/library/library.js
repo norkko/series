@@ -71,7 +71,7 @@ exports.getLibraryId = async (req, res, next) => {
   let l = series[0].number_of_seasons,
     arr = new Array(++l);
 
-  for (let i = 1; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     arr[i] = [];
     for (let j = 0; j < data.length; j++) {
       if (data[j].season === i) {
@@ -99,6 +99,7 @@ exports.postLibraryId = async (req, res, next) => {
   let remove = _.differenceWith(previous, update, _.isEqual);
   update = update.filter(item => !previous.includes(item));
 
+  console.log(update)
   // Adds episodes
   if (update && update.length > 0) {
     for (let i = 0; i < update.length; i++) {

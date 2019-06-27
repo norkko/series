@@ -24,20 +24,41 @@ exports.help = async (req, res, next) => {
 
 exports.getBrowse = async (req, res, next) => {
   try {
-    let popular = await fetch(`${url}/api/series/popular`, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'GET'
-    }).then(res => res.json());
-  
-    res.render('browse.ejs', {
-      title: 'Browse',
-      csrfToken: req.csrfToken(),
-      auth: req.session.auth,
-      popular: popular.results
-    });
+    if (req.query.series) {
+      // query
+      console.log(req.query.series);
+      let search = await fetch(`${url}/api/search?query=${req.query.series}`, { // spaces needa be %20
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'GET'
+      }).then(res => res.json());
+
+      res.render('search.ejs', {
+        title: 'Browse',
+        csrfToken: req.csrfToken(),
+        auth: req.session.auth,
+        query: req.query.series,
+        results: search.results
+      });
+    } else {
+      // browse
+      let popular = await fetch(`${url}/api/series/popular`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'GET'
+      }).then(res => res.json());
+
+      res.render('browse.ejs', {
+        title: 'Browse',
+        csrfToken: req.csrfToken(),
+        auth: req.session.auth,
+        popular: popular.results
+      });
+    }
   } catch (err) {
     console.log(err);
   }
@@ -45,7 +66,6 @@ exports.getBrowse = async (req, res, next) => {
 
 exports.getBrowseId = async (req, res, next) => {
   try {
-
     const results = await fetch(`${url}/api/series/${req.params.id}`, {
       headers: {
         'Accept': 'application/json',
@@ -68,7 +88,6 @@ exports.getBrowseId = async (req, res, next) => {
 
 exports.postBrowseId = async (req, res, next) => {
   try {
-
     const data = await fetch(`${url}/series`, {
       method: 'PUT',
       headers: {
@@ -83,7 +102,7 @@ exports.postBrowseId = async (req, res, next) => {
 
     console.log(data.status);  
   
-    res.status(204).send();
+    res.redirect('browse');
   } catch (err) {
     console.log(err);
   }

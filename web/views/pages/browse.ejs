@@ -7,8 +7,8 @@
 <% if (popular) {%>
   <h1 class="text-dark">Browse</h1>
 
-  <form method="GET" action="/browse/?=">
-    <input class="form-control w-25 mx-auto" type="text" placeholder="Search" aria-label="Search">
+  <form method="GET" action="/browse">
+    <input class="form-control w-25 mx-auto" type="search" name="series">
   </form>
 
   <div class="container w-50 mx-auto">
@@ -16,7 +16,6 @@
     <a class="float-left" href="/browse/<%= item.id %>"><%= item.name %></a>
     <br/>
   <% }); %>
-
 </div>
 <% } else if (results) { %>
   <a href="/browse">Back to browse</a>
