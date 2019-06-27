@@ -1,18 +1,9 @@
-<!doctype html>
-<html>
-  <head>
-  	<meta charset="UTF-8">
-    <title><%= title %></title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../css/style.css">
-  </head>
-<body>
+<%- include ./meta %>
 
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="mx-auto" style="width: 25%;">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"   aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon"></span> <!-- when collapsed, its the same color as the background ( white, white ) -->
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="nav navbar-nav" >
@@ -37,7 +28,7 @@
             <a class="dropdown-item" href="/settings">Settings</a>
             <hr>
             <a class="dropdown-item" href="/help">Help</a>
-            <a class="dropdown-item" href="/logout">Logout</a>
+            <a class="dropdown-item" href="/logout">Sign out</a>
           </div>
         </li>
         <% } else { %>
