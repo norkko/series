@@ -17,7 +17,7 @@ public class SeriesController {
 
     @RequestMapping(
             value = "/series",
-            method = RequestMethod.POST)
+            method = RequestMethod.PUT)
     public void saveSeries(
             Authentication authentication,
             @Valid @RequestBody Series body) {

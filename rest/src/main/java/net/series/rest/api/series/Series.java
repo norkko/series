@@ -15,7 +15,7 @@ public class Series {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Min(1)
+    @Min(0)
     private int series; // should be unique, but only for a specific account
 
     @JsonBackReference

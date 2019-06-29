@@ -1,5 +1,6 @@
 package net.series.rest.http.controller;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
 import net.series.rest.api.series.Series;
 import net.series.rest.http.Request;
 import net.series.rest.http.Response;
@@ -28,7 +29,7 @@ public class HttpController {
             value = "/search",
             method = RequestMethod.GET)
     public Response searchWithQuery(
-            @RequestParam(value = "query") String query) {
+            @RequestParam(value = "query") String query) throws UnirestException {
         logger.info("" + query);
         logger.info("GET Query");
         return request.send(new Url(query).toString());
@@ -38,7 +39,7 @@ public class HttpController {
             value = "/series/{id}",
             method = RequestMethod.GET)
     public Response searchSpecificSeries(
-            @PathVariable int id) {
+            @PathVariable int id) throws UnirestException {
         logger.info("GET series");
         return request.send(new Url(id).toString());
     }
@@ -53,8 +54,6 @@ public class HttpController {
             method = RequestMethod.POST)
     public List<Response> fetchSeveralSeries(
             @RequestBody List<Series> list) throws InterruptedException, ExecutionException {
-
-
         List<Callable<Response>> callableList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             callableList.add(new performRequest(list.get(i).getSeries()));
@@ -63,8 +62,8 @@ public class HttpController {
         final ExecutorService service = Executors.newFixedThreadPool(list.size());
         List<Future<Response>> futureObjects = service.invokeAll(callableList);
         List<Response> series = new ArrayList<>();
-        for (Future<Response> x : futureObjects) {
-            series.add(x.get());
+        for (Future<Response> obj : futureObjects) {
+            series.add(obj.get());
         }
 
         return series;
@@ -78,7 +77,7 @@ public class HttpController {
         }
 
         @Override
-        public Response call() {
+        public Response call() throws UnirestException {
             return request.send(new Url(seriesId).toString());
         }
     }
@@ -88,7 +87,7 @@ public class HttpController {
             method = RequestMethod.GET)
     public Response searchSpecificSeriesSeason(
             @PathVariable int id,
-            @PathVariable int season) {
+            @PathVariable int season) throws UnirestException {
         logger.info("GET season");
         return request.send(new Url(id, season).toString());
     }
@@ -96,12 +95,20 @@ public class HttpController {
     @RequestMapping(
             value = "/series/{id}/{season}/{episode}",
             method = RequestMethod.GET)
-    public Response searchSpecificSeriesEpisode(
+    public Response searchSpecificSeriesEpisode (
             @PathVariable int id,
             @PathVariable int season,
-            @PathVariable int episode) {
+            @PathVariable int episode) throws UnirestException {
         logger.info("GET episode");
         return request.send(new Url(id, season, episode).toString());
+    }
+
+    @RequestMapping(
+            value = "/series/popular",
+            method = RequestMethod.GET)
+    public Response fetchPopularSeries () throws UnirestException {
+        logger.info("GET popular series");
+        return request.send(new Url().toString());
     }
 
 }

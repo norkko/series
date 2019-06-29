@@ -106,6 +106,14 @@ public class AccountServiceImpl implements AccountService  {
      * {@inheritDoc}
      */
     @Override
+    public Account getAccount(Authentication authentication) {
+        return accountRepository.findById(getId(authentication));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UserDetails loadUserByUsername(String username) {
         Account account = findByUsername(username);
         return new User(account.getUsername(), account.getPassword(), getAuthorities());

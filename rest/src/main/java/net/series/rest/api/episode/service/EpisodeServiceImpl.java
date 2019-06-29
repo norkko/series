@@ -42,7 +42,6 @@ public class EpisodeServiceImpl implements EpisodeService {
     public void saveEpisode(Authentication authentication, Episode episode)  {
         int id = getId(authentication);
 
-        // only allow saved series to be saved by episode
         episode.setAccount(accountService.findById(id));
         episodeRepository.save(episode);
 

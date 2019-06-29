@@ -15,13 +15,13 @@ public class Episode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Min(1)
+    @Min(0)
     private int series;
 
-    @Min(1)
+    @Min(0)
     private int season;
 
-    @Min(1)
+    @Min(0)
     private int episode;
 
     @JsonBackReference

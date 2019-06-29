@@ -59,4 +59,12 @@ public interface AccountService extends UserDetailsService {
      */
     Account save(Account account);
 
+    /**
+     * Finds the current account and returns it
+     *
+     * @param authentication
+     * @return corresponding account
+     */
+    Account getAccount(Authentication authentication);
+
 }

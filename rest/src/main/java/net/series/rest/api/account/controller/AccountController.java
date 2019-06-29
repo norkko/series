@@ -43,4 +43,12 @@ public class AccountController {
         accountService.removeAccount(authentication);
     }
 
+    @RequestMapping(
+            value = "/current",
+            method = RequestMethod.GET)
+    public Account getAccount(
+            Authentication authentication) {
+        return accountService.getAccount(authentication);
+    }
+
 }
