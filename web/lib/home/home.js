@@ -3,15 +3,18 @@
  *
  */
 const fetch = require('node-fetch');
-const url = 'http://localhost:8081';
+const url = 'http://rest:8081';
 const _ = require('lodash');
+
+const dm = require('dundermifflin');
 
 exports.home = async (req, res, next) => {
   console.log(req.session.user)
   res.render('home/home.ejs', {
     title: 'Home',
     csrfToken: req.csrfToken(),
-    user: req.session.user
+    user: req.session.user,
+    quote: dm.michael()
   });
 }
 
@@ -19,7 +22,8 @@ exports.help = async (req, res, next) => {
   res.render('home/help.ejs', {
     title: 'Help',
     csrfToken: req.csrfToken(),
-    user: req.session.user
+    user: req.session.user,
+    quote: dm.michael()
   });
 }
 

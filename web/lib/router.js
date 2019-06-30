@@ -76,13 +76,13 @@ router.route('/login')
  *  
  */
 router.route('/profile')
-  .get(csrfProtection, auth.getProfile)
+  .get(authenticated, csrfProtection, auth.getProfile)
 
 /**
  *  
  */
 router.route('/profile/settings')
-  .get(csrfProtection, auth.getSettings)
+  .get(authenticated, csrfProtection, auth.getSettings)
 
 /**
  *  

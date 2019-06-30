@@ -4,7 +4,7 @@
  */
 
 const fetch = require('node-fetch');
-const url = 'http://localhost:8081';
+const url = 'http://rest:8081';
 
 exports.getRegister = async (req, res, next) => {
   res.render('auth/register.ejs', {

@@ -6,6 +6,7 @@ Series is a web-application for tracking progress of series easily.
 - Docker
 - MySQL
 - Node
+- Bootstrap
 
 ## Running locally
 To run locally Java 8 and Maven has to be installed for packaging.   
@@ -14,13 +15,17 @@ Create the `.env` file:
 ```bash
 cp .env.example .env
 ```
-Package backend:
+Package REST API:
 ```bash
 mvn -f ./rest -DskipTests package
 ```
-Start with compose:
+Start REST API:
 ```bash
 docker-compose up --build
+```
+Bundle and run node
+```bash
+npm install && npm start
 ```
 Running tests
 ```bash
@@ -46,6 +51,7 @@ If an endpoint requires the `Authorization` header it will be marked `✓` in th
 |--------|-----------|---------------|------------------|-------------- |
 | POST   | /register | Register account |  | ✓ |  
 | POST   | /login | Log in with account |  | ✓ |  
+| GET   | /current | Fetch active account | ✓ |  |  
 | PUT   | /update | Update account | ✓ | ✓ |  
 | DELETE   | /remove | Delete account | ✓ | ✓ |  
 
@@ -72,6 +78,7 @@ If an endpoint requires the `Authorization` header it will be marked `✓` in th
 | POST | /series | Get information of several series   |   | |
 | GET | /series/**_id_**/**_season_** | Get specific series season information |   | |
 | GET | /series/**_id_**/**_season_**/**_episode_** | Get specific series episode information   |   | |
+| GET | /series/popular | Get popular series   |   |  |
 
 ## License
 MIT

@@ -6,7 +6,6 @@ services:
       - 8081:8081
     environment:
       API_KEY: ${API_KEY}
-      API_URL: ${API_URL}
       JWT_SECRET: ${JWT_SECRET}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -25,11 +24,7 @@ services:
     ports:
       - 3306:3306
 
-#  web:
-#    build: ./web
-#    ports:
-#      - 8080:8080
-  redis:
-    image: redis:alpine
+  web:
+    build: ./web
     ports:
-      - 6379:6379
+      - 8080:8080
