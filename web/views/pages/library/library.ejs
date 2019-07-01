@@ -4,9 +4,11 @@
 
 <div>
   <% if (series) { %>
+    <div class="container w-50 mx-auto">
     <% series.forEach(item => { %>
-        <a class="d-sm-block" href="/library/<%= item.id %>"><%= item.name %></a>
+        <a class="float-left" href="/library/<%= item.id %>"><%= item.name %></a><br/>
     <% }); %>
+    </div>
   <% } %>
 </div>
 

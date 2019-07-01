@@ -1,13 +1,11 @@
 <%- include ../../partials/head %>
 
-
-<style>body { color: #000; }</style>
-
 <h1 class="text-dark">Browse</h1>
 
 <form method="GET" action="/browse">
   <input class="form-control w-25 mx-auto" type="search" name="series" value="<%= query %>">
 </form>
+
 <div class="container">
   <% for (let i = 0; i < results.length; i++) { %>
     <% if (results[i].overview.length > 0) { %>
