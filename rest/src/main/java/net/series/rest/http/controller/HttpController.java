@@ -10,9 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -29,10 +28,12 @@ public class HttpController {
             value = "/search",
             method = RequestMethod.GET)
     public Response searchWithQuery(
-            @RequestParam(value = "query") String query) throws UnirestException {
-        logger.info("" + query);
+            @RequestParam(value = "query") String query) throws UnirestException, UnsupportedEncodingException {
+        logger.info("Decoded string: ", query);
+        String encodedString = java.net.URLEncoder.encode(query, "UTF-8").replace("+", "%20");
+        logger.info("Encoded string: ", encodedString);
         logger.info("GET Query");
-        return request.send(new Url(query).toString());
+        return request.send(new Url(encodedString).toString());
     }
 
     @RequestMapping(
