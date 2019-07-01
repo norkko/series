@@ -1,8 +1,8 @@
-<%- include ../../partials/meta %>
+<%- include ../../partials/head %>
 
 <div class="container mt-5">
-  <a href="/" class="text-blue">Home</a>
-  <h1 class="text-dark mb-5 pt-5">Sign in</h1>
+  <a href="/" class="text-primary">Home</a>
+  <h1 class="mb-5 pt-5">Sign in</h1>
   <div class="content custom-border bg-light">
     <form action="" method="post">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -21,6 +21,6 @@
 
 <div class="container mt-1">
   <div class="content custom-border bg-light">
-    <a class="text-dark">Not registered? <a href="/register">Sign up.</a></a>
+    <a class="text-dark">Not registered? <a class="text-primary" href="/register">Sign up</a></a>
   </div>
 </div>

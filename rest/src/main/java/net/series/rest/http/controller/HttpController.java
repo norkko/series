@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -29,11 +30,9 @@ public class HttpController {
             method = RequestMethod.GET)
     public Response searchWithQuery(
             @RequestParam(value = "query") String query) throws UnirestException, UnsupportedEncodingException {
-        logger.info("Decoded string: ", query);
-        String encodedString = java.net.URLEncoder.encode(query, "UTF-8").replace("+", "%20");
-        logger.info("Encoded string: ", encodedString);
+        final String encodedQuery = URLEncoder.encode(query, "UTF-8").replace("+", "%20");
         logger.info("GET Query");
-        return request.send(new Url(encodedString).toString());
+        return request.send(new Url(encodedQuery).toString());
     }
 
     @RequestMapping(
@@ -70,6 +69,10 @@ public class HttpController {
         return series;
     }
 
+    /**
+     * Inner callable class for thread creation
+     * by fetchSeveralSeries()
+     */
     private class performRequest implements Callable<Response> {
         private int seriesId;
 

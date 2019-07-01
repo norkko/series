@@ -15,19 +15,16 @@ Create the `.env` file:
 ```bash
 cp .env.example .env
 ```
-Package REST API:
+Package with Maven:
 ```bash
 mvn -f ./rest -DskipTests package
 ```
-Start REST API:
+Start services:
 ```bash
 docker-compose up --build
 ```
-Bundle and run node
-```bash
-npm install && npm start
 ```
-Running tests
+Run tests
 ```bash
 mvn test
 ```

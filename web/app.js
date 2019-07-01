@@ -39,6 +39,10 @@ app.use(session({
 
 app.use('/', require('./lib/router'));
 
+app.use('*', (req, res) => {
+  res.redirect('/');
+});
+
 app.listen(port, () => {
   console.log('Running on localhost:8080');
 });

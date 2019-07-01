@@ -42,12 +42,6 @@ router.route('/')
 /**
  *  
  */
-router.route('/help')
-  .get(csrfProtection, home.help)
-
-/**
- *  
- */
 router.route('/browse')
   .get(csrfProtection, home.getBrowse)
 
@@ -71,18 +65,6 @@ router.route('/register')
 router.route('/login')
   .get(csrfProtection, auth.getLogin)
   .post(parseForm, csrfProtection, auth.postLogin)
-
-/**
- *  
- */
-router.route('/profile')
-  .get(authenticated, csrfProtection, auth.getProfile)
-
-/**
- *  
- */
-router.route('/profile/settings')
-  .get(authenticated, csrfProtection, auth.getSettings)
 
 /**
  *  

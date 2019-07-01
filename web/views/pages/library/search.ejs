@@ -1,16 +1,20 @@
 <%- include ../../partials/head %>
 
-<h1 class="text-dark">Browse</h1>
+<h1>Browse</h1>
 
 <form method="GET" action="/browse">
-  <input class="form-control w-25 mx-auto" type="search" name="series" value="<%= query %>">
+  <input class="form-control w-25 mx-auto" type="search" name="series" value="<%= decodeURI(query) %>">
 </form>
 
 <div class="container">
-  <% for (let i = 0; i < results.length; i++) { %>
-    <% if (results[i].overview.length > 0) { %>
-      <a href="browse/<%= results[i].id %>"><%= results[i].name %></a><br/>
-      <%= results[i].overview %><br/><br/>
-    <% } %>
-  <% } %></a>
+  <ul class="list-group">
+    <% for (let i = 0; i < results.length; i++) { %>
+      <% if (results[i].overview.length > 0) { %>
+        <li class="list-group-item">
+          <a class="text-success" href="browse/<%= results[i].id %>"><%= results[i].name %></a>
+          <p class="text-secondary"><%= results[i].overview %></p>
+        </li>
+      <% } %>
+    <% } %></a>
+  </ul>
 </div>

@@ -4,7 +4,7 @@
  */
 
 const fetch = require('node-fetch');
-const url = 'http://rest:8081';
+const url = 'http://localhost:8081';
 
 exports.getRegister = async (req, res, next) => {
   res.render('auth/register.ejs', {
@@ -97,20 +97,4 @@ const authenticated = (req, res, next) => {
   }
 
   res.sendFile(path.join(__dirname, 'public', '404.html'));
-}
-
-exports.getProfile = async (req, res, next) => {
-  res.render('auth/profile.ejs', {
-    title: 'Profile',
-    csrfToken: req.csrfToken(),
-    user: req.session.user
-  });
-}
-
-exports.getSettings = async (req, res, next) => {
-  res.render('auth/settings.ejs', {
-    title: 'Settings',
-    csrfToken: req.csrfToken(),
-    user: req.session.user
-  });
 }

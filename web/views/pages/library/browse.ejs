@@ -1,26 +1,29 @@
 <%- include ../../partials/head %>
 
 <% if (popular) {%>
-  <h1 class="text-dark">Browse</h1>
+  <h1 class="">Browse</h1>
   <form method="GET" action="/browse">
     <input class="form-control w-25 mx-auto" type="search" name="series">
   </form>
   <div class="container w-50 mx-auto">
-  <% popular.forEach(item => { %>
-    <a class="float-left" href="/browse/<%= item.id %>"><%= item.name %></a>
-    <br/>
-  <% }); %>
+    <ul class="list-group">
+      <% popular.forEach(item => { %>
+        <li class="list-group-item">
+          <a class="float-left text-primary" href="/browse/<%= item.id %>"><%= item.name %></a>
+        </li>
+      <% }); %>
+    </ul>
 </div>
 <% } else if (results) { %>
-  <a href="/browse">Back to browse</a>
-  <h1 class="text-dark"><%= results.name %></h1>
+  <a href="/browse" class="text-primary">Back to browse</a>
+  <h1><%= results.name %></h1>
   <div class="container w-50 mx-auto">
-    <h5 class="text-dark"><%= results.number_of_seasons %> seasons</h5>
+    <h5><%= results.number_of_seasons %> seasons</h5>
     <a><%= results.overview %></a><br/>
     <% if (user) { %>
       <form method="POST" action="">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button>Add to my library</button>
+        <button class="btn btn-primary btn-lg"> Add to my library</button>
       </form>
     <% } %>
   </div>
