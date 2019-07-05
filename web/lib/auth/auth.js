@@ -20,7 +20,7 @@ exports.postRegister = async (req, res, next) => {
     'password': req.body.password
   }
 
-  const request = fetch(`${url}/register`, {
+  let request = await fetch(`${url}/register`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -29,10 +29,12 @@ exports.postRegister = async (req, res, next) => {
     body: JSON.stringify(json)
   });
 
-  const response = await request;
-  res.redirect('/');
+  if (request.status === 400) {
+    res.redirect('/register');
+    return;
+  }
 
-  // do post login
+  res.redirect('/');
 }
 
 exports.getLogin = async (req, res, next) => {
@@ -50,7 +52,7 @@ exports.postLogin = async (req, res, next) => {
   }
 
   try {
-    const request = fetch(`${url}/login`, {
+    const request = await fetch(`${url}/login`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -59,9 +61,13 @@ exports.postLogin = async (req, res, next) => {
       body: JSON.stringify(json)
     });
   
-    const response = await request;
-    if (response.status === 200) {
-      req.session.auth = response.headers.get('authorization');
+    if (request.status === 401) {
+      // not authorized
+      res.redirect('/login'); // flash msg wrong username or password
+    }
+
+    if (request.status === 200) {
+      req.session.auth = request.headers.get('authorization');
   
       const current = await fetch(`${url}/current`, {
         method: 'GET',

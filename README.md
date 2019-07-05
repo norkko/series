@@ -23,7 +23,7 @@ Start services:
 ```bash
 docker-compose up --build
 ```
-```
+
 Run tests
 ```bash
 mvn test

@@ -1,7 +1,7 @@
 <%- include ../../partials/head %>
 
 <% if (popular) {%>
-  <h1 class="">Browse</h1>
+  <h1 class="text-light">Browse</h1>
   <form method="GET" action="/browse">
     <input class="form-control w-25 mx-auto" type="search" name="series">
   </form>
@@ -15,16 +15,39 @@
     </ul>
 </div>
 <% } else if (results) { %>
-  <a href="/browse" class="text-primary">Back to browse</a>
-  <h1><%= results.name %></h1>
-  <div class="container w-50 mx-auto">
-    <h5><%= results.number_of_seasons %> seasons</h5>
-    <a><%= results.overview %></a><br/>
+  <a href="javascript:void(0)" class="text-primary" onclick="javascript:history.back()">Back to browse</a>
+  <h1 class="text-light"><%= results.name %></h1>
+  <div class="container w-50 mx-auto text-light">
+    <h5 class="text-light"><%= results.number_of_seasons %> seasons</h5>
+    <p class="text-light"><%= results.overview %></p>
     <% if (user) { %>
-      <form method="POST" action="">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button class="btn btn-primary btn-lg"> Add to my library</button>
-      </form>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Add to library
+      </button>
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-dark" id="exampleModalLabel">Confirm</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-dark">
+              Do you want to add this to your library?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+              <form method="POST" action="" class="m-0 p-0">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button class="btn btn-success">Confirm</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     <% } %>
   </div>
 <% } else { %>

@@ -3,14 +3,14 @@
 <div class="container margin-top">
 <% if (series) { %>
   <a href="/library" class="text-blue">Back to library</a>
-	<div class="overview">
-	  <div class="overview-child">
+	<div class="overview mb-5 mt-5">
+	  <div class="overview-child text-light">
       <h1><%= series.name.toUpperCase() %></h1>
       <a class="medium"><%= series.overview %></a>
     </div>
   </div>
   <% for (let i = 1; i < series.number_of_seasons; i++) { %>
-  	<div class="season-section">
+  	<div class="season-section text-light">
       Season <%= series.seasons[i].season_number %>:
       <% for (let j = 1; j < series.seasons[i].episode_count; j++) { %>
         <a><%= j %></a>
