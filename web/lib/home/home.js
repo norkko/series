@@ -9,7 +9,6 @@ const _ = require('lodash');
 const dm = require('dundermifflin');
 
 exports.home = async (req, res, next) => {
-  console.log(req.session.user)
   res.render('home/home.ejs', {
     title: 'Home',
     csrfToken: req.csrfToken(),
@@ -29,7 +28,6 @@ exports.getBrowse = async (req, res, next) => {
   try {
     if (req.query.series) {
       // query
-      console.log(req.query.series);
       let search = await fetch(`${url}/api/search?query=${req.query.series}`, { // spaces needa be %20
         headers: {
           'Accept': 'application/json',
@@ -102,8 +100,6 @@ exports.postBrowseId = async (req, res, next) => {
         'series': req.params.id
       })
     });
-
-    console.log(response);
 
     if (response.status === 200) {
       // ok

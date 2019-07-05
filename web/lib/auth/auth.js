@@ -78,7 +78,6 @@ exports.postLogin = async (req, res, next) => {
         }
       }).then(res => res.json());
   
-      console.log(current)
       req.session.user = current;
     }
   

@@ -14,10 +14,13 @@
       <h3 class="season-header">Season <%= i + 1 %></h3>
       <div class="season-section">
         <form action="/library/<%= series.id %>" method="post">
+
+          <!-- hidden inputs for backend -->
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <input type="hidden" name="id" value="<%= series.id %>">
           <input type="hidden" name="season" value="<%= i %>">
           <input type="hidden" name="previous" value="<%= watched[i] %>">
+
           <ul class="list-unstyled">
             <li class="list-unstyled-item bg-dark text-light">
 

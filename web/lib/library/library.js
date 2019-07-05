@@ -59,8 +59,7 @@ exports.getLibraryId = async (req, res, next) => {
     }
   }).then(res => res.json());
 
-  let series = req.session.series,
-    found;
+  let series = req.session.series, found;
   for (let i = 0; i < series.length; i++) {
     if (series[i].id == req.params.id) {
       found = series[i];
@@ -68,9 +67,7 @@ exports.getLibraryId = async (req, res, next) => {
     }
   }
 
-  let l = series[0].number_of_seasons,
-    arr = new Array(++l);
-
+  let arr = new Array(found.number_of_seasons);
   for (let i = 0; i < arr.length; i++) {
     arr[i] = [];
     for (let j = 0; j < data.length; j++) {
@@ -79,6 +76,8 @@ exports.getLibraryId = async (req, res, next) => {
       }
     }
   }
+
+  console.log(arr);
 
   res.render('library/series.ejs', {
     title: 'Library',

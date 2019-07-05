@@ -30,7 +30,7 @@ const authenticated = (req, res, next) => {
     return next();
   }
 
-  res.sendFile(path.join(__dirname, '../public/html/', '404.html'));
+  res.sendFile(path.join(__dirname, '../public/', '404.html'));
 }
 
 /**
