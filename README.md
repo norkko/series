@@ -1,5 +1,5 @@
 # Series
-Series is a web-application for tracking progress of series easily.    
+Series is a web-application for tracking progress of series    
 
 ## Built with
 - Java
@@ -11,7 +11,7 @@ Series is a web-application for tracking progress of series easily.
 ## Running locally
 To run locally Java 8 and Maven has to be installed for packaging.   
 
-Create the `.env` file:    
+Create `.env` file:    
 ```bash
 cp .env.example .env
 ```
@@ -29,8 +29,8 @@ Run tests
 mvn test
 ```
 
-## Environment variables
-When creating the `.env` file, only `API_KEY` and `JWT_SECRET` has to be changed. [Getting an API key](https://www.themoviedb.org/faq/api?language=en-US)
+## Env variables
+`API_KEY` and `JWT_SECRET` must be created [Where I got my API key](https://www.themoviedb.org/faq/api?language=en-US)
 
 ```bash
 API_KEY                 # themoviedb API key

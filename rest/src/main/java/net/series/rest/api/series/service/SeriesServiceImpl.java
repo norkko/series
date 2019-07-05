@@ -30,6 +30,16 @@ public class SeriesServiceImpl implements SeriesService {
     public void saveSeries(Authentication authentication, Series series) {
         int id = getId(authentication);
 
+        // if account already has the series, then don't add
+
+
+        /*
+        List<Series> has = seriesRepository.findAll();
+        has.removeIf(item -> item.getId() != id);
+        logger.info("series id ", series.getSeries());
+        logger.info("has ", has.toString());
+        */
+
         series.setAccount(accountService.findById(id));
         seriesRepository.save(series);
 
@@ -42,6 +52,9 @@ public class SeriesServiceImpl implements SeriesService {
     @Override
     public void removeSeries(Authentication authentication, int seriesId) {
         int id = getId(authentication);
+
+        // if account don't have series, don't remove anything
+
 
         Account account = accountService.findById(id);
         account.getSeries().removeIf(series -> series.getId() == seriesId);

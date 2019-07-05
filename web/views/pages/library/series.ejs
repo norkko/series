@@ -1,23 +1,42 @@
 <%- include ../../partials/head %>
 
-<div class="container margin-top">
-<% if (series) { %>
-  <a href="/library" class="text-blue">Back to library</a>
-	<div class="overview mb-5 mt-5">
-	  <div class="overview-child text-light">
-      <h1><%= series.name.toUpperCase() %></h1>
-      <a class="medium"><%= series.overview %></a>
-    </div>
-  </div>
-  <% for (let i = 1; i < series.number_of_seasons; i++) { %>
-  	<div class="season-section text-light">
-      Season <%= series.seasons[i].season_number %>:
-      <% for (let j = 1; j < series.seasons[i].episode_count; j++) { %>
-        <a><%= j %></a>
-      <% } %>
-    </div>
+<div class="container margin-top text-white">
+  <% if (series) { %>
+    <a href="/library" class="text-blue">Back to library</a>
+    <h1><%= series.name.toUpperCase() %></h1>
+    <a><%= series.overview %></a>
+    <h4><%= series.number_of_seasons %> season(s)</h4>
+
+    <% for (let i = 0; i < series.number_of_seasons; i++) { %>
+    <% let emptySeries = series.seasons[i].episode_count < 1 %>
+
+    <% if (!emptySeries) { %>
+      <h3 class="season-header">Season <%= i + 1 %></h3>
+      <div class="season-section">
+        <form action="/library/<%= series.id %>" method="post">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="id" value="<%= series.id %>">
+          <input type="hidden" name="season" value="<%= i %>">
+          <input type="hidden" name="previous" value="<%= watched[i] %>">
+          <ul class="list-unstyled">
+            <li class="list-unstyled-item bg-dark text-light">
+
+            <% for (let j = 1; j <= series.seasons[i].episode_count; j++) { %>
+                <a><%= j %></a>
+                <% let checked = watched[i].indexOf(j) > -1 ? "checked" : "" %>
+                <input type="checkbox" name="episodes" value="<%= j %>" <%= checked %>>
+            <% } %>
+
+            </li>
+          </ul>
+          <button type="submit" class="btn btn-light" style="width: 100px;">Save</button>
+        </form>
+        <% } %>
+
+      </div>
+    <% } %>
+
+  <% } else { %>
+    what the heckler
   <% } %>
-<% } else { %>
-  what the heckler
-<% } %>
 </div>

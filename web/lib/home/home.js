@@ -91,7 +91,7 @@ exports.getBrowseId = async (req, res, next) => {
 
 exports.postBrowseId = async (req, res, next) => {
   try {
-    const data = await fetch(`${url}/series`, {
+    const response = await fetch(`${url}/series`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -102,6 +102,16 @@ exports.postBrowseId = async (req, res, next) => {
         'series': req.params.id
       })
     });
+
+    console.log(response);
+
+    if (response.status === 200) {
+      // ok
+      console.log('added');
+
+    } else {
+      // shit hit the fan
+    }
 
     res.redirect(req.originalUrl);
   } catch (err) {
