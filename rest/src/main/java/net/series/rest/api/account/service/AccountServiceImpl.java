@@ -1,7 +1,7 @@
 package net.series.rest.api.account.service;
 
 import net.series.rest.api.account.Account;
-import net.series.rest.api.account.exception.type.UsernameUnavailableException;
+import net.series.rest.api.exception.type.BadRequestException;
 import net.series.rest.api.account.repository.AccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService  {
     @Override
     public Account registerAccount(Account account) {
         if (findByUsername(account.getUsername()) != null) {
-            throw new UsernameUnavailableException("Username already exists");
+            throw new BadRequestException("Username already exists");
         }
 
         account.setPassword(encoder.encode(account.getPassword()));
@@ -80,7 +80,7 @@ public class AccountServiceImpl implements AccountService  {
     @Override
     public Account findById(int id) {
         if (accountRepository.findById(id) == null) {
-            throw new IllegalArgumentException("Account not found");
+            throw new BadRequestException("Account not found");
         }
 
         return accountRepository.findById(id);

@@ -2,6 +2,7 @@ package net.series.rest.api.series.service;
 
 import net.series.rest.api.account.Account;
 import net.series.rest.api.account.service.AccountService;
+import net.series.rest.api.exception.type.BadRequestException;
 import net.series.rest.api.series.Series;
 import net.series.rest.api.series.repository.SeriesRepository;
 import org.slf4j.Logger;
@@ -30,15 +31,10 @@ public class SeriesServiceImpl implements SeriesService {
     public void saveSeries(Authentication authentication, Series series) {
         int id = getId(authentication);
 
-        // if account already has the series, then don't add
-
-
-        /*
-        List<Series> has = seriesRepository.findAll();
-        has.removeIf(item -> item.getId() != id);
-        logger.info("series id ", series.getSeries());
-        logger.info("has ", has.toString());
-        */
+        List<Series> list = seriesRepository.findAll();
+        if (list.stream().anyMatch(item -> item.getId() == id && item.getSeries() == series.getSeries())) {
+            throw new BadRequestException("Series already added");
+        }
 
         series.setAccount(accountService.findById(id));
         seriesRepository.save(series);

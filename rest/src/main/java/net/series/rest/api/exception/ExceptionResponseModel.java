@@ -1,4 +1,4 @@
-package net.series.rest.api.account.exception;
+package net.series.rest.api.exception;
 
 import lombok.Data;
 
