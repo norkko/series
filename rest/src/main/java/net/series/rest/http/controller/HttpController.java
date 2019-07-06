@@ -55,12 +55,14 @@ public class HttpController {
     public List<Response> fetchSeveralSeries(
             @RequestBody List<Series> list) throws InterruptedException, ExecutionException {
         List<Callable<Response>> callableList = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            callableList.add(new performRequest(list.get(i).getSeries()));
+        for (Series series : list) {
+            callableList.add(new performRequest(series.getSeries()));
         }
 
-        final ExecutorService service = Executors.newFixedThreadPool(list.size());
-        List<Future<Response>> futureObjects = service.invokeAll(callableList);
+        final ExecutorService executor = Executors.newFixedThreadPool(list.size());
+        List<Future<Response>> futureObjects = executor.invokeAll(callableList);
+        executor.shutdown();
+
         List<Response> series = new ArrayList<>();
         for (Future<Response> obj : futureObjects) {
             series.add(obj.get());
