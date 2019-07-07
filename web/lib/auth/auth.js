@@ -2,7 +2,6 @@
 /**
  *
  */
-
 const fetch = require('node-fetch');
 const url = 'http://localhost:8081';
 

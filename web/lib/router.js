@@ -77,7 +77,7 @@ router.route('/logout')
  */
 router.route('/library')
   .get(authenticated, csrfProtection, library.getLibrary)
-
+  .post(authenticated, parseForm, csrfProtection, library.postLibrary)
 /**
  *  
  */

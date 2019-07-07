@@ -3,15 +3,13 @@
 <div class="container margin-top text-white">
   <% if (series) { %>
     <a href="/library" class="text-blue">Back to library</a>
-    <h1><%= series.name.toUpperCase() %></h1>
+    <h1 class="text-uppercase"><%= series.name %></h1>
     <a><%= series.overview %></a>
-    <h4><%= series.number_of_seasons %> season(s)</h4>
 
     <% for (let i = 0; i < series.number_of_seasons; i++) { %>
     <% let emptySeries = series.seasons[i].episode_count < 1 %>
-
     <% if (!emptySeries) { %>
-      <h3 class="season-header">Season <%= i + 1 %></h3>
+      <h3 class="season-header unselect" tabindex="">Season <%= i + 1 %></h3>
       <div class="season-section">
         <form action="/library/<%= series.id %>" method="post">
 
@@ -25,14 +23,17 @@
             <li class="list-unstyled-item bg-dark text-light">
 
             <% for (let j = 1; j <= series.seasons[i].episode_count; j++) { %>
-                <a><%= j %></a>
-                <% let checked = watched[i].indexOf(j) > -1 ? "checked" : "" %>
-                <input type="checkbox" name="episodes" value="<%= j %>" <%= checked %>>
+              <% let checked = watched[i].indexOf(j) > -1 ? "checked" : "" %>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" id="checkbox" class="custom-control-input" name="episodes" value="<%= j %>" <%= checked %> tabindex="">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-label unselect"><%= j %></span>
+              </label>
             <% } %>
 
             </li>
           </ul>
-          <button type="submit" class="btn btn-light" style="width: 100px;">Save</button>
+          <button type="submit" class="btn btn-light mt-2" style="width: 100px;">Save</button>
         </form>
         <% } %>
 

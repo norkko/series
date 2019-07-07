@@ -1,12 +1,37 @@
 <%- include ../../partials/head %>
 
 <h1 class="text-light">My library</h1>
-
 <div>
   <% if (series) { %>
     <div class="container w-50 mx-auto">
     <% series.forEach(item => { %>
-        <a class="float-left" href="/library/<%= item.id %>"><%= item.name %></a><br/>
+      <a class="" href="/library/<%= item.id %>"><%= item.name %></a>
+      <button type="button" class="btn btn-danger mt-2" data-toggle="modal" data-target="#exampleModal">
+        x
+      </button>
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-dark" id="exampleModalLabel">Confirm</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-dark">
+              Do you want to remove this from your library?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+              <form method="POST" action="" class="m-0 p-0">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" name="id" value="<%= item.id %>">
+                <button class="btn btn-success">Yes</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div><br/>
     <% }); %>
     </div>
   <% } %>

@@ -109,7 +109,7 @@ exports.postBrowseId = async (req, res, next) => {
       // shit hit the fan
     }
 
-    res.redirect(req.originalUrl);
+    res.redirect('/library');
   } catch (err) {
     console.log(err);
   }

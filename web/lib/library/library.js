@@ -49,7 +49,16 @@ exports.getLibrary = async (req, res, next) => {
 }
 
 exports.postLibrary = async (req, res, next) => {
-  // todo
+  const request = await fetch(`${url}/series/${req.body.id}`, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': req.session.auth
+    },
+    method: 'DELETE'
+  });
+
+  res.redirect('/library');
 }
 
 exports.getLibraryId = async (req, res, next) => {
@@ -76,8 +85,6 @@ exports.getLibraryId = async (req, res, next) => {
       }
     }
   }
-
-  console.log(arr);
 
   res.render('library/series.ejs', {
     title: 'Library',
