@@ -6,10 +6,8 @@
     <h1 class="text-uppercase"><%= series.name %></h1>
     <a><%= series.overview %></a>
 
-    <% for (let i = 0; i < series.number_of_seasons; i++) { %>
-    <% let emptySeries = series.seasons[i].episode_count < 1 %>
-    <% if (!emptySeries) { %>
-      <h3 class="season-header unselect" tabindex="">Season <%= i + 1 %></h3>
+    <% for (let i = 0; i < series.seasons.length; i++) { %>
+      <h3 class="season-header unselect" tabindex=""><%= series.seasons[i].name %></h3>
       <div class="season-section">
         <form action="/library/<%= series.id %>" method="post">
 
@@ -35,7 +33,7 @@
           </ul>
           <button type="submit" class="btn btn-light mt-2" style="width: 100px;">Save</button>
         </form>
-        <% } %>
+     
 
       </div>
     <% } %>

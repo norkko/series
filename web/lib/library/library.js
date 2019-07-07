@@ -76,7 +76,7 @@ exports.getLibraryId = async (req, res, next) => {
     }
   }
 
-  let arr = new Array(found.number_of_seasons);
+  let arr = new Array(found.seasons.length);
   for (let i = 0; i < arr.length; i++) {
     arr[i] = [];
     for (let j = 0; j < data.length; j++) {
