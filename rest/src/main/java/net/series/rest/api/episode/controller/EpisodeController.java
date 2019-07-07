@@ -33,12 +33,12 @@ public class EpisodeController {
     }
 
     @RequestMapping(
-            value = "/episodes/{id}",
+            value = "/episodes",
             method = RequestMethod.DELETE)
     public void removeEpisode(
             Authentication authentication,
-            @PathVariable int id) {
-        episodeService.removeEpisode(authentication, id);
+            @Valid @RequestBody Episode episode) {
+        episodeService.removeEpisode(authentication, episode);
     }
 
     @RequestMapping(

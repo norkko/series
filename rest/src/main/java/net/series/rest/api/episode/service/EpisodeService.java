@@ -35,9 +35,9 @@ public interface EpisodeService {
      * Saves the account using injected accountService
      *
      * @param authentication
-     * @param episodeId
+     * @param episode object body
      */
-    void removeEpisode(Authentication authentication, int episodeId);
+    void removeEpisode(Authentication authentication, Episode episode);
 
     /**
      * Gets account id using authorization header

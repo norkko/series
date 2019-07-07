@@ -4,6 +4,8 @@ import net.series.rest.api.account.Account;
 import net.series.rest.api.account.service.AccountService;
 import net.series.rest.api.episode.Episode;
 import net.series.rest.api.episode.repository.EpisodeRepository;
+import net.series.rest.api.exception.type.BadRequestException;
+import net.series.rest.api.series.Series;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,15 @@ public class EpisodeServiceImpl implements EpisodeService {
     public void saveEpisode(Authentication authentication, Episode episode)  {
         int id = getId(authentication);
 
+        List<Episode> list = episodeRepository.findAll();
+        if (list.stream().anyMatch(item ->
+                item.getId() == id &&
+                item.getEpisode() == episode.getEpisode() &&
+                item.getSeason() == episode.getSeason() &&
+                item.getSeries() == episode.getSeries())) {
+            throw new BadRequestException("Episode already added");
+        }
+
         episode.setAccount(accountService.findById(id));
         episodeRepository.save(episode);
 
@@ -52,14 +63,16 @@ public class EpisodeServiceImpl implements EpisodeService {
      * {@inheritDoc}
      */
     @Override
-    public void removeEpisode(Authentication authentication, int episodeId) {
+    public void removeEpisode(Authentication authentication, Episode episode) {
         int id = getId(authentication);
 
         Account account = accountService.findById(id);
-        account.getEpisodes().removeIf(episode -> episode.getId() == episodeId);
+        account.getEpisodes().removeIf(e ->
+                e.getSeries() == episode.getSeries() &&
+                e.getSeason() == episode.getSeason() &&
+                e.getEpisode() == episode.getEpisode());
         accountService.save(account);
-
-        logger.info("Episode removed " + episodeId);
+        logger.info("Episode removed");
     }
 
     /**

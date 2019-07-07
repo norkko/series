@@ -32,7 +32,9 @@ public class SeriesServiceImpl implements SeriesService {
         int id = getId(authentication);
 
         List<Series> list = seriesRepository.findAll();
-        if (list.stream().anyMatch(item -> item.getId() == id && item.getSeries() == series.getSeries())) {
+        list.removeIf(item -> item.getId() != id);
+        if (list.stream().filter(x -> x.getSeries() == series.getSeries()).findFirst().isPresent()) {
+            logger.info("Duplicate series " + series.getSeries());
             throw new BadRequestException("Series already added");
         }
 
@@ -49,11 +51,8 @@ public class SeriesServiceImpl implements SeriesService {
     public void removeSeries(Authentication authentication, int seriesId) {
         int id = getId(authentication);
 
-        // if account don't have series, don't remove anything
-
-
         Account account = accountService.findById(id);
-        account.getSeries().removeIf(series -> series.getId() == seriesId);
+        account.getSeries().removeIf(item -> item.getSeries() == seriesId);
         accountService.save(account);
 
         logger.info("Series removed" + seriesId);
@@ -78,7 +77,9 @@ public class SeriesServiceImpl implements SeriesService {
      * @return found account id
      */
     private int getId(Authentication authentication) {
-        return accountService.findByUsername(authentication.getName()).getId();
+        int id = accountService.findByUsername(authentication.getName()).getId();
+        logger.info("Fetching id " + id);
+        return id;
     }
 
 }

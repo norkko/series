@@ -115,7 +115,7 @@ exports.postLibraryId = async (req, res, next) => {
       };
 
       try {
-        const request = await fetch(`${url}/episodes`, {
+        await fetch(`${url}/episodes`, {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -132,7 +132,27 @@ exports.postLibraryId = async (req, res, next) => {
 
   // Remove eposides
   if (remove && remove.length > 0) {
-    // todo
+    for (let i = 0; i < remove.length; i++) {
+      let body = {
+        'series': req.body.id,
+        'season': req.body.season,
+        'episode': remove[i]
+      };
+
+      try {
+        await fetch(`${url}/episodes`, {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': req.session.auth
+          },
+          body: JSON.stringify(body),
+          method: 'DELETE'
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
 
   res.redirect(req.originalUrl);

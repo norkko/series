@@ -10,7 +10,7 @@ public class Url {
     private Integer id;
     private Integer season;
     private Integer episode;
-    private String searchQuery; // turn spaces into %20
+    private String searchQuery;
 
     public Url() {
 

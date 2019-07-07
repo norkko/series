@@ -6,8 +6,8 @@
     <div class="container w-50 mx-auto">
     <% series.forEach(item => { %>
       <a class="" href="/library/<%= item.id %>"><%= item.name %></a>
-      <button type="button" class="btn btn-danger mt-2" data-toggle="modal" data-target="#exampleModal">
-        x
+      <button type="button" class="btn btn-danger m-2" data-toggle="modal" data-target="#exampleModal">
+        Remove
       </button>
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
