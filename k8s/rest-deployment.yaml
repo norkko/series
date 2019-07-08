@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-deployment
+spec:
+  selector:
+    matchLabels:
+      run: rest-load-balancer
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        run: rest-load-balancer
+    spec:
+      containers:
+        - name: series-api
+          image: aggelol/series-api
+          ports:
+            - containerPort: 8081
+              protocol: TCP
