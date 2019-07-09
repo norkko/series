@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest
+spec:
+  selector:
+    matchLabels:
+      run: rest-load-balancer
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        run: rest-load-balancer
+    spec:
+      containers:
+      - name: rest
+        image: aggelol/series-api
+        env:
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: API_KEY
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: JWT_SECRET
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: MYSQL_DATABASE
+        ports:
+          - containerPort: 8081
+            protocol: TCP

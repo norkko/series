@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    run: mysql-load-balancer
+spec:
+  selector:
+    app: mysql
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+  selector:
+    run: mysql-load-balancer
+  type: NodePort
+status:
+  loadBalancer: {}
