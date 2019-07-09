@@ -1,34 +1,65 @@
 # Series
-Series is a web-application for tracking progress of series    
-
+Series is an app for tracking progress of series    
 ## Built with
 - Java
-- Docker
 - MySQL
 - Node
 - Bootstrap
+- Docker/Kubernetes
 
 ## Running locally
-To run locally Java 8 and Maven has to be installed for packaging.   
+App supports running either with docker-compose or in kubernetes
+```bash
+$ git clone https://github.com/august-norkko/series.git series
+$ cd series
 
-Create `.env` file:    
-```bash
-cp .env.example .env
-```
-Package with Maven:
-```bash
-mvn -f ./rest -DskipTests package
-```
-Start services:
-```bash
-docker-compose up --build
+# Create env file
+$ cp .env.example .env
 ```
 
-Run tests
+### Docker-compose
 ```bash
-mvn test
+# Package with Maven
+$ mvn -f ./rest -DskipTests package
+
+# Start services
+$ docker-compose up --build
+
+# Run tests
+$ mvn test
 ```
 
+### Kubernetes
+```bash
+
+# Create secrets from env-file in main dir
+$ kubectl create secret generic secrets --from-env-file=.env
+
+# Locate k8s folder
+$ cd k8s
+
+$ ls
+mysql/
+rest/
+web/ 
+
+# Apply k8s configuration
+$ kubectl apply -f ./mysql
+$ kubectl apply -f ./rest
+$ kubectl apply -f ./web
+
+# Public node ip
+$ kubectl cluster-info
+Kubernetes master is running at https://<public-node-ip>:8443
+
+# NodePort for web load-balancer
+$ kubectl describe service web
+NodePort: <node-port>/TCP
+
+# Access app
+$ curl http://<public-node-ip>:<node-port>
+
+```
 ## Env variables
 `API_KEY` and `JWT_SECRET` must be created [Where I got my API key](https://www.themoviedb.org/faq/api?language=en-US)
 

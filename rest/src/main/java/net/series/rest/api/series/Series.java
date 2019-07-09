@@ -16,7 +16,7 @@ public class Series {
     private int id;
 
     @Min(0)
-    private int series; // should be unique, but only for a specific account
+    private int series;
 
     @JsonBackReference
     @ManyToOne

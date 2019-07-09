@@ -3,7 +3,7 @@
  *
  */
 const fetch = require('node-fetch');
-const url = 'http://localhost:8081';
+const url = 'http://rest:8081';
 const _ = require('lodash');
 
 const dm = require('dundermifflin');
