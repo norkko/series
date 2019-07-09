@@ -1,3 +1,5 @@
+#!/bin/bash
+
 kubectl delete -f mysql/
 kubectl delete -f rest/
 kubectl delete -f web/

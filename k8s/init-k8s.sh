@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo Creating secret
 kubectl create secret generic secrets --from-env-file=../.env
 
