@@ -20,7 +20,7 @@ $ cp .env.example .env
 ### Docker-compose
 ```bash
 # Package with Maven
-$ mvn -f ./rest -DskipTests package
+$ ./mvnw -f ./rest -DskipTests package
 
 # Start services
 $ docker-compose up --build
