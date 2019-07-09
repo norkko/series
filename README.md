@@ -25,6 +25,9 @@ $ ./mvnw -f ./rest -DskipTests package
 # Start services
 $ docker-compose up --build
 
+# or..
+$ ./init.sh
+
 # Run tests
 $ mvn test
 ```
@@ -59,7 +62,15 @@ NodePort: <node-port>/TCP
 # Access app
 $ curl http://<public-node-ip>:<node-port>
 
+# or, using scripts..
+
+# Init k8s
+$ ./init-k8s.sh
+
+# Delete k8s configs
+$ ./delete.sh
 ```
+
 ## Env variables
 `API_KEY` and `JWT_SECRET` must be created [Where I got my API key](https://www.themoviedb.org/faq/api?language=en-US)
 
