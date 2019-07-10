@@ -1,11 +1,16 @@
 # Series
-Series is an app for tracking progress of series    
+Series is an app for tracking progress of series   
+
+## Project layout
+- [rest](https://github.com/august-norkko/series/tree/master/rest) - Rest API
+- [web](https://github.com/august-norkko/series/tree/master/web) - Node fullstack
+- [k8s](https://github.com/august-norkko/series/tree/master/k8s) - Kubernetes configuration
+   
 ## Built with
 - Java
 - MySQL
 - Node
 - Bootstrap
-- Docker/Kubernetes
 
 ## Running locally
 App supports running either with docker-compose or in kubernetes
@@ -72,7 +77,7 @@ $ ./delete.sh
 ```
 
 ## Env variables
-`API_KEY` and `JWT_SECRET` must be created [Where I got my API key](https://www.themoviedb.org/faq/api?language=en-US)
+`API_KEY` and `JWT_SECRET` must be updated [API key](https://www.themoviedb.org/faq/api?language=en-US)
 
 ```bash
 API_KEY                 # themoviedb API key
@@ -84,7 +89,7 @@ JWT_SECRET              # JWT secret
 ```
 
 ## API
-If an endpoint requires the `Authorization` header it will be marked `✓` in the `Authenticated` column.
+Endpoints requiring `Authorization` header are marked `✓` in `Authenticated` column
 ##### [Account](https://github.com/august-norkko/series/blob/master/rest/src/main/java/net/series/rest/api/account/controller/AccountController.java)
 | Method | URL       | Description    | Authenticated | Available from UI | 
 |--------|-----------|---------------|------------------|-------------- |
