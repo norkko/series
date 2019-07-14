@@ -8,8 +8,8 @@ Series is an app for tracking progress of series
    
 ## Built with
 - Java
-- MySQL
 - Node
+- MySQL
 - Bootstrap
 
 ## Running locally
@@ -28,7 +28,8 @@ $ cp .env.example .env
 $ ./mvnw -f ./rest -DskipTests package
 
 # Start services
-$ docker-compose up --build
+
+$ docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up --build
 
 # or..
 $ ./init.sh
@@ -67,7 +68,7 @@ NodePort: <node-port>/TCP
 # Access app
 $ curl http://<public-node-ip>:<node-port>
 
-# or, using scripts..
+# or..
 
 # Init k8s
 $ ./init-k8s.sh
