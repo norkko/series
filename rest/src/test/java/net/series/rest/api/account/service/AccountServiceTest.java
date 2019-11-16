@@ -58,9 +58,4 @@ public class AccountServiceTest {
         verify(accountRepository, times(1)).save(account);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldFailWhenIdNotInUse() {
-        accountService.findById(-1);
-    }
-
 }

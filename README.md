@@ -29,13 +29,7 @@ $ ./mvnw -f ./rest -DskipTests package
 
 # Start services
 
-$ docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up --build
-
-# or..
-$ ./init.sh
-
-# Run tests
-$ mvn test
+$ docker-compose up --build
 ```
 
 ### Kubernetes
@@ -69,11 +63,7 @@ NodePort: <node-port>/TCP
 $ curl http://<public-node-ip>:<node-port>
 
 # or..
-
-# Init k8s
 $ ./init-k8s.sh
-
-# Delete k8s configs
 $ ./delete.sh
 ```
 
